@@ -19,15 +19,16 @@
 <div>
     @if (films != null)
     {
-        foreach (var character in films)
+        foreach (var film in films)
         {
             <div class="films">
-                <h3>Title: @character.title</h3>
-                <h3>Episode: @character.episode_id</h3>
-                <h3>Opening crawl: @character.opening_crawl</h3>
-                <h3>Director: @character.director</h3>
-                <h3>Producer: @character.producer</h3>
-                <h3>Release date: @character.release_date</h3>
+                <img src="https://starwars-visualguide.com/assets/img/films/@(films.IndexOf(film) + 1).jpg">
+                <h3>Title: @film.title</h3>
+                <h3>Episode: @film.episode_id</h3>
+                <h3>Opening crawl: @film.opening_crawl</h3>
+                <h3>Director: @film.director</h3>
+                <h3>Producer: @film.producer</h3>
+                <h3>Release date: @film.release_date</h3>
 
             </div>
         }
@@ -44,12 +45,12 @@
     {
         films = new List<Film>();
 
-        for (int i = 1; i <= 7; i++)
+        for (int i = 1; i <= 6; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.py4e.com/api/films/{i}")
+                    RequestUri = new Uri($"https://swapi.dev/api/films/{i}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
@@ -57,8 +58,8 @@
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
-                var character = JsonSerializer.Deserialize<Film>(responseString);
-                films.Add(character);
+                var film = JsonSerializer.Deserialize<Film>(responseString);
+                films.Add(film);
             }
         }
     }

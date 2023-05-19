@@ -19,22 +19,23 @@
 <div>
     @if (starships != null)
     {
-        foreach (var character in starships)
+        foreach (var starship in starships)
         {
             <div class="films">
-                <h3>Name: @character.name</h3>
-                <h3>Model: @character.model</h3>
-                <h3>Manufacture: @character.manufacturer</h3>
-                <h3>Cost in credits: @character.cost_in_credits</h3>
-                <h3>Lenght: @character.length</h3>
-                <h3>Maz atmosphering speed: @character.max_atmosphering_speed</h3>
-                <h3>Crew: @character.crew</h3>
-                <h3>Passengers: @character.passengers</h3>
-                <h3>Cargo capacity: @character.cargo_capacity</h3>
-                <h3>Consumables: @character.consumables</h3>
-                <h3>Hyperdrive rating: @character.hyperdrive_rating</h3>
-                <h3>MGLT: @character.MGLT</h3>
-                <h3>Starship class: @character.starship_class</h3>
+                <img src="https://starwars-visualguide.com/assets/img/starships/@(starships.IndexOf(starship) + 1).jpg">
+                <h3>Name: @starship.name</h3>
+                <h3>Model: @starship.model</h3>
+                <h3>Manufacture: @starship.manufacturer</h3>
+                <h3>Cost in credits: @starship.cost_in_credits</h3>
+                <h3>Lenght: @starship.length</h3>
+                <h3>Maz atmosphering speed: @starship.max_atmosphering_speed</h3>
+                <h3>Crew: @starship.crew</h3>
+                <h3>Passengers: @starship.passengers</h3>
+                <h3>Cargo capacity: @starship.cargo_capacity</h3>
+                <h3>Consumables: @starship.consumables</h3>
+                <h3>Hyperdrive rating: @starship.hyperdrive_rating</h3>
+                <h3>MGLT: @starship.MGLT</h3>
+                <h3>Starship class: @starship.starship_class</h3>
                 
 
             </div>
@@ -57,7 +58,7 @@
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.py4e.com/api/starships/{i}")
+                    RequestUri = new Uri($"https://swapi.dev/api/starships/{i}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
@@ -65,8 +66,8 @@
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
-                var character = JsonSerializer.Deserialize<Starship>(responseString);
-                starships.Add(character);
+                var starship = JsonSerializer.Deserialize<Starship>(responseString);
+                starships.Add(starship);
             }
         }
     }

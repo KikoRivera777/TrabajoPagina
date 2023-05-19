@@ -21,6 +21,7 @@
         foreach (var character in characters)
         {
             <div class="characters">
+                <img src="https://starwars-visualguide.com/assets/img/characters/@(characters.IndexOf(character) + 1).jpg">
                 <h3>Name: @character.name</h3>
                 <h3>Height: @character.height ft</h3>
                 <h3>Mass: @character.mass pounds</h3>
@@ -44,12 +45,12 @@
     {
         characters = new List<Character>();
 
-        for (int i = 1; i <= 88; i++)
+        for (int i = 1; i <= 83; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.py4e.com/api/people/{i}")
+                    RequestUri = new Uri($"https://swapi.dev/api/people/{i}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
