@@ -62,3 +62,26 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.links {
+    color: white;
+    text-decoration-color: none;
+    text-decoration: none;
+    font-size: 35px;
+}
+
+main {
+    background-color: black;
+    color:white;
+    font-family:fantasy;
+}
+
+#main-titulo {
+    color: black;
+    text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
+    font-size:60px;
+}
+
+h3{
+    font-size:40px;
+}
