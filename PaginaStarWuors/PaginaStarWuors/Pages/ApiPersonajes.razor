@@ -5,15 +5,31 @@
 @using System.Collections.Generic;
 @inject HttpClient httpClient
 
-<h2>Personajes</h2>
+<style>
+    .characters{
+        margin-top:50px;
+        border:5px solid white;
+        padding:10px;
+        font-family:fantasy;
+    }
+</style>
+
+<h2>Characters</h2>
 
 <div>
     @if (characters != null)
     {
         foreach (var character in characters)
         {
-            <div>
-                <h1>@character.Name + "gg"</h1>
+            <div class="characters">
+                <h3>Name: @character.Name</h3>
+                <h3>Height: @character.Height ft</h3>
+                <h3>Mass: @character.Mass pounds</h3>
+                <h3>Hair color: @character.Hair_color</h3>
+                <h3>Skin color: @character.Skin_color</h3>
+                <h3>Eye color: @character.Eye_color</h3>
+                <h3>Birth year: @character.Birth_year</h3>
+                <h3>Gender: @character.Gender</h3>
             </div>
         }
     }
@@ -48,7 +64,14 @@
                 {
                     var character = new Character
                         {
-                            Name = characterElement.GetProperty("name").GetString()
+                            Name = characterElement.GetProperty("name").GetString(),
+                            Height = characterElement.GetProperty("height").GetString(),
+                            Mass = characterElement.GetProperty("mass").GetString(),
+                            Hair_color = characterElement.GetProperty("hair_color").GetString(),
+                            Skin_color = characterElement.GetProperty("skin_color").GetString(),
+                            Eye_color = characterElement.GetProperty("eye_color").GetString(),
+                            Birth_year = characterElement.GetProperty("birth_year").GetString(),
+                            Gender = characterElement.GetProperty("gender").GetString()
                         };
 
                     characters.Add(character);
@@ -60,5 +83,12 @@
     public class Character
     {
         public string Name { get; set; }
+        public string Height { get; set; }
+        public string Mass { get; set; }
+        public string Hair_color { get; set; }
+        public string Skin_color { get; set; }
+        public string Eye_color { get; set; }
+        public string Birth_year { get; set; }
+        public string Gender { get; set; }
     }
 }
