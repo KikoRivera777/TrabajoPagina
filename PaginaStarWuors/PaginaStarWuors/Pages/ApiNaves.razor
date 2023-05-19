@@ -1,7 +1,91 @@
 ﻿@page "/Naves"
 
+
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .films {
+        margin-top: 50px;
+        border: 5px solid white;
+        padding: 10px;
+    }
+</style>
+
 <h2>Starships</h2>
 
-@code {
+<div>
+    @if (starships != null)
+    {
+        foreach (var character in starships)
+        {
+            <div class="films">
+                <h3>Name: @character.name</h3>
+                <h3>Model: @character.model</h3>
+                <h3>Manufacture: @character.manufacturer</h3>
+                <h3>Cost in credits: @character.cost_in_credits</h3>
+                <h3>Lenght: @character.length</h3>
+                <h3>Maz atmosphering speed: @character.max_atmosphering_speed</h3>
+                <h3>Crew: @character.crew</h3>
+                <h3>Passengers: @character.passengers</h3>
+                <h3>Cargo capacity: @character.cargo_capacity</h3>
+                <h3>Consumables: @character.consumables</h3>
+                <h3>Hyperdrive rating: @character.hyperdrive_rating</h3>
+                <h3>MGLT: @character.MGLT</h3>
+                <h3>Starship class: @character.starship_class</h3>
+                
 
+            </div>
+        }
+    }
+</div>
+
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Starship> starships;
+
+    protected override async Task OnInitializedAsync()
+    {
+        starships = new List<Starship>();
+
+        for (int i = 1; i <= 23; i++)
+        {
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.py4e.com/api/starships/{i}")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var character = JsonSerializer.Deserialize<Starship>(responseString);
+                starships.Add(character);
+            }
+        }
+    }
+
+    public class Starship
+    {
+        public string name { get; set; }
+        public string model { get; set; }
+        public string manufacturer { get; set; }
+        public string cost_in_credits { get; set; }
+        public string length { get; set; }
+        public string max_atmosphering_speed { get; set; }
+        public string crew { get; set; }
+        public string passengers { get; set; }
+        public string cargo_capacity { get; set; }
+        public string consumables { get; set; }
+        public string hyperdrive_rating { get; set; }
+        public string MGLT { get; set; }
+        public string starship_class { get; set; }
+        
+    }
 }

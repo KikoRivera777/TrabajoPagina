@@ -17,9 +17,9 @@
 <h2>Films</h2>
 
 <div>
-    @if (characters != null)
+    @if (films != null)
     {
-        foreach (var character in characters)
+        foreach (var character in films)
         {
             <div class="films">
                 <h3>Title: @character.title</h3>
@@ -38,11 +38,11 @@
     string searchstring;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
-    List<Character> characters;
+    List<Film> films;
 
     protected override async Task OnInitializedAsync()
     {
-        characters = new List<Character>();
+        films = new List<Film>();
 
         for (int i = 1; i <= 7; i++)
         {
@@ -57,13 +57,13 @@
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
-                var character = JsonSerializer.Deserialize<Character>(responseString);
-                characters.Add(character);
+                var character = JsonSerializer.Deserialize<Film>(responseString);
+                films.Add(character);
             }
         }
     }
 
-    public class Character
+    public class Film
     {
         public string title { get; set; }
         public int episode_id { get; set; }
