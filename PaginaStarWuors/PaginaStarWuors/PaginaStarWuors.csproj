@@ -8,34 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="NewFolder1\**" />
-    <Compile Remove="NewFolder2\**" />
-    <Compile Remove="NewFolder3\**" />
-    <Compile Remove="NewFolder\**" />
-    <Content Remove="NewFolder1\**" />
-    <Content Remove="NewFolder2\**" />
-    <Content Remove="NewFolder3\**" />
-    <Content Remove="NewFolder\**" />
-    <EmbeddedResource Remove="NewFolder1\**" />
-    <EmbeddedResource Remove="NewFolder2\**" />
-    <EmbeddedResource Remove="NewFolder3\**" />
-    <EmbeddedResource Remove="NewFolder\**" />
-    <None Remove="NewFolder1\**" />
-    <None Remove="NewFolder2\**" />
-    <None Remove="NewFolder3\**" />
-    <None Remove="NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Counter.razor" />
-    <Content Remove="Pages\FetchData.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="wwwroot\Client\Program.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.15" PrivateAssets="all" />
   </ItemGroup>
