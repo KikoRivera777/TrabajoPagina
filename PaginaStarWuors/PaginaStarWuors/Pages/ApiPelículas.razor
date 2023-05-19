@@ -1,7 +1,75 @@
 ﻿@page "/Películas"
 
-<h2>Películas</h2>
+
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .films {
+        margin-top: 50px;
+        border: 5px solid white;
+        padding: 10px;
+    }
+</style>
+
+<h2>Films</h2>
+
+<div>
+    @if (characters != null)
+    {
+        foreach (var character in characters)
+        {
+            <div class="films">
+                <h3>Title: @character.title</h3>
+                <h3>Episode: @character.episode_id</h3>
+                <h3>Opening crawl: @character.opening_crawl</h3>
+                <h3>Director: @character.director</h3>
+                <h3>Producer: @character.producer</h3>
+                <h3>Release date: @character.release_date</h3>
+
+            </div>
+        }
+    }
+</div>
 
 @code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Character> characters;
 
+    protected override async Task OnInitializedAsync()
+    {
+        characters = new List<Character>();
+
+        for (int i = 1; i <= 7; i++)
+        {
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.py4e.com/api/films/{i}")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var character = JsonSerializer.Deserialize<Character>(responseString);
+                characters.Add(character);
+            }
+        }
+    }
+
+    public class Character
+    {
+        public string title { get; set; }
+        public int episode_id { get; set; }
+        public string opening_crawl { get; set; }
+        public string director { get; set; }
+        public string producer { get; set; }
+        public string release_date { get; set; }
+    }
 }

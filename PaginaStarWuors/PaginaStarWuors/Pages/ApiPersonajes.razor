@@ -6,11 +6,10 @@
 @inject HttpClient httpClient
 
 <style>
-    .characters{
-        margin-top:50px;
-        border:5px solid white;
-        padding:10px;
-        font-family:fantasy;
+    .characters {
+        margin-top: 50px;
+        border: 5px solid white;
+        padding: 10px;
     }
 </style>
 
@@ -22,14 +21,14 @@
         foreach (var character in characters)
         {
             <div class="characters">
-                <h3>Name: @character.Name</h3>
-                <h3>Height: @character.Height ft</h3>
-                <h3>Mass: @character.Mass pounds</h3>
-                <h3>Hair color: @character.Hair_color</h3>
-                <h3>Skin color: @character.Skin_color</h3>
-                <h3>Eye color: @character.Eye_color</h3>
-                <h3>Birth year: @character.Birth_year</h3>
-                <h3>Gender: @character.Gender</h3>
+                <h3>Name: @character.name</h3>
+                <h3>Height: @character.height ft</h3>
+                <h3>Mass: @character.mass pounds</h3>
+                <h3>Hair color: @character.hair_color</h3>
+                <h3>Skin color: @character.skin_color</h3>
+                <h3>Eye color: @character.eye_color</h3>
+                <h3>Birth year: @character.birth_year</h3>
+                <h3>Gender: @character.gender</h3>
             </div>
         }
     }
@@ -43,52 +42,36 @@
 
     protected override async Task OnInitializedAsync()
     {
-        requestMessage = new HttpRequestMessage
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(@"https://swapi.py4e.com/api/people")
-            };
-        responseMessage = await httpClient.SendAsync(requestMessage);
+        characters = new List<Character>();
 
-        if (responseMessage.IsSuccessStatusCode)
+        for (int i = 1; i <= 88; i++)
         {
-            using var responseStream = await responseMessage.Content.ReadAsStreamAsync();
-            var document = await JsonDocument.ParseAsync(responseStream);
-
-            if (document.RootElement.TryGetProperty("results", out var resultsElement) &&
-                resultsElement.ValueKind == JsonValueKind.Array)
-            {
-                characters = new List<Character>();
-
-                foreach (var characterElement in resultsElement.EnumerateArray())
+            requestMessage = new HttpRequestMessage
                 {
-                    var character = new Character
-                        {
-                            Name = characterElement.GetProperty("name").GetString(),
-                            Height = characterElement.GetProperty("height").GetString(),
-                            Mass = characterElement.GetProperty("mass").GetString(),
-                            Hair_color = characterElement.GetProperty("hair_color").GetString(),
-                            Skin_color = characterElement.GetProperty("skin_color").GetString(),
-                            Eye_color = characterElement.GetProperty("eye_color").GetString(),
-                            Birth_year = characterElement.GetProperty("birth_year").GetString(),
-                            Gender = characterElement.GetProperty("gender").GetString()
-                        };
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.py4e.com/api/people/{i}")
+                };
 
-                    characters.Add(character);
-                }
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var character = JsonSerializer.Deserialize<Character>(responseString);
+                characters.Add(character);
             }
         }
     }
 
     public class Character
     {
-        public string Name { get; set; }
-        public string Height { get; set; }
-        public string Mass { get; set; }
-        public string Hair_color { get; set; }
-        public string Skin_color { get; set; }
-        public string Eye_color { get; set; }
-        public string Birth_year { get; set; }
-        public string Gender { get; set; }
+        public string name { get; set; }
+        public string height { get; set; }
+        public string mass { get; set; }
+        public string hair_color { get; set; }
+        public string skin_color { get; set; }
+        public string eye_color { get; set; }
+        public string birth_year { get; set; }
+        public string gender { get; set; }
     }
 }
