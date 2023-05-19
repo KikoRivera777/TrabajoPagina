@@ -1,7 +1,64 @@
 ﻿@page "/Personajes"
 
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
 <h2>Personajes</h2>
 
-@code {
+<div>
+    @if (characters != null)
+    {
+        foreach (var character in characters)
+        {
+            <div>
+                <h1>@character.Name + "gg"</h1>
+            </div>
+        }
+    }
+</div>
 
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Character> characters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        requestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(@"https://swapi.py4e.com/api/people")
+            };
+        responseMessage = await httpClient.SendAsync(requestMessage);
+
+        if (responseMessage.IsSuccessStatusCode)
+        {
+            using var responseStream = await responseMessage.Content.ReadAsStreamAsync();
+            var document = await JsonDocument.ParseAsync(responseStream);
+
+            if (document.RootElement.TryGetProperty("results", out var resultsElement) &&
+                resultsElement.ValueKind == JsonValueKind.Array)
+            {
+                characters = new List<Character>();
+
+                foreach (var characterElement in resultsElement.EnumerateArray())
+                {
+                    var character = new Character
+                        {
+                            Name = characterElement.GetProperty("name").GetString()
+                        };
+
+                    characters.Add(character);
+                }
+            }
+        }
+    }
+
+    public class Character
+    {
+        public string Name { get; set; }
+    }
 }
