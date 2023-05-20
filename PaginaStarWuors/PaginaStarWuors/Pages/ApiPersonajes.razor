@@ -21,7 +21,12 @@
         foreach (var character in characters)
         {
             <div class="characters">
-                <img src="https://starwars-visualguide.com/assets/img/characters/@(characters.IndexOf(character) + 1).jpg">
+                @{
+                    var imageUrl = character != null
+                    ? $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg"
+                    : "https://www.rosemacsales.com/assets/images/no_image.png";
+                }
+                <img src="@imageUrl">
                 <h3>Name: @character.name</h3>
                 <h3>Height: @character.height ft</h3>
                 <h3>Mass: @character.mass pounds</h3>
@@ -33,6 +38,7 @@
             </div>
         }
     }
+
 </div>
 
 @code {

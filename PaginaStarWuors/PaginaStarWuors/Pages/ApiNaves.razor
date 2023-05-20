@@ -7,7 +7,7 @@
 @inject HttpClient httpClient
 
 <style>
-    .films {
+    .starships {
         margin-top: 50px;
         border: 5px solid white;
         padding: 10px;
@@ -21,26 +21,30 @@
     {
         foreach (var starship in starships)
         {
-            <div class="films">
-                <img src="https://starwars-visualguide.com/assets/img/starships/@(starships.IndexOf(starship) + 1).jpg">
+            <div class="starships">
+                @{
+                    var imageUrl = starship != null
+                    ? $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg"
+                    : "https://www.rosemacsales.com/assets/images/no_image.png";
+                }
+                <img src="@imageUrl">
                 <h3>Name: @starship.name</h3>
                 <h3>Model: @starship.model</h3>
-                <h3>Manufacture: @starship.manufacturer</h3>
+                <h3>Manufacturer: @starship.manufacturer</h3>
                 <h3>Cost in credits: @starship.cost_in_credits</h3>
-                <h3>Lenght: @starship.length</h3>
-                <h3>Maz atmosphering speed: @starship.max_atmosphering_speed</h3>
+                <h3>Length: @starship.length</h3>
+                <h3>Max Atmosphering Speed: @starship.max_atmosphering_speed</h3>
                 <h3>Crew: @starship.crew</h3>
                 <h3>Passengers: @starship.passengers</h3>
-                <h3>Cargo capacity: @starship.cargo_capacity</h3>
+                <h3>Cargo Capacity: @starship.cargo_capacity</h3>
                 <h3>Consumables: @starship.consumables</h3>
-                <h3>Hyperdrive rating: @starship.hyperdrive_rating</h3>
+                <h3>Hyperdrive Rating: @starship.hyperdrive_rating</h3>
                 <h3>MGLT: @starship.MGLT</h3>
-                <h3>Starship class: @starship.starship_class</h3>
-                
-
+                <h3>Starship Class: @starship.starship_class</h3>
             </div>
         }
     }
+
 </div>
 
 @code {

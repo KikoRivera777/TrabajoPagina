@@ -22,17 +22,22 @@
         foreach (var film in films)
         {
             <div class="films">
-                <img src="https://starwars-visualguide.com/assets/img/films/@(films.IndexOf(film) + 1).jpg">
+                @{
+                    var imageUrl = film != null
+                    ? $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg"
+                    : "https://www.rosemacsales.com/assets/images/no_image.png";
+                }
+                <img src="@imageUrl">
                 <h3>Title: @film.title</h3>
                 <h3>Episode: @film.episode_id</h3>
                 <h3>Opening crawl: @film.opening_crawl</h3>
                 <h3>Director: @film.director</h3>
                 <h3>Producer: @film.producer</h3>
                 <h3>Release date: @film.release_date</h3>
-
             </div>
         }
     }
+
 </div>
 
 @code {
