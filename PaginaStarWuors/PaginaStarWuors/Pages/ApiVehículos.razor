@@ -1,7 +1,96 @@
 ﻿@page "/Vehículos"
 
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .vehicles {
+        margin-top: 50px;
+        border: 5px solid white;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
+
 <h2>Vehicles</h2>
 
-@code {
+<div>
+    @if (vehicles != null)
+    {
+        <div class="container">
+            @foreach (var vehicle in vehicles)
+            {
+                <div class="starships">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3>Name: @vehicle.name</h3>
+                    <h3>Model: @vehicle.model</h3>
+                    <h3>Manufacturer: @vehicle.manufacturer</h3>
+                    <h3>Cost in credits: @vehicle.cost_in_credits</h3>
+                    <h3>Length: @vehicle.length</h3>
+                    <h3>Max atmosphering speed: @vehicle.max_atmosphering_speed</h3>
+                    <h3>Crew: @vehicle.crew</h3>
+                    <h3>Passengers: @vehicle.passengers</h3>
+                    <h3>Cargo capacity: @vehicle.cargo_capacity</h3>
+                    <h3>Consumables: @vehicle.consumables</h3>
+                    <h3>Vehicle class: @vehicle.vehicle_class</h3>
+                </div>
+            }
+        </div>
+    }
+</div>
 
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Vehicles> vehicles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        vehicles = new List<Vehicles>();
+
+        for (int i = 1; i <= 23; i++)
+        {
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.dev/api/vehicles/{i}")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var vehicle = JsonSerializer.Deserialize<Vehicles>(responseString);
+                vehicles.Add(vehicle);
+            }
+        }
+    }
+
+    public class Vehicles
+    {
+        public string name { get; set; }
+        public string model { get; set; }
+        public string manufacturer { get; set; }
+        public string cost_in_credits { get; set; }
+        public string length { get; set; }
+        public string max_atmosphering_speed { get; set; }
+        public string crew { get; set; }
+        public string passengers { get; set; }
+        public string cargo_capacity { get; set; }
+        public string consumables { get; set; }
+        public string vehicle_class { get; set; }
+    }
 }

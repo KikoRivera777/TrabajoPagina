@@ -1,6 +1,5 @@
 ﻿@page "/Naves"
 
-
 @using System.Net.Http;
 @using System.Text.Json;
 @using System.Collections.Generic;
@@ -10,7 +9,14 @@
     .starships {
         margin-top: 50px;
         border: 5px solid white;
+        margin-left: 10px;
+        text-align: center;
         padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
     }
 </style>
 
@@ -19,29 +25,31 @@
 <div>
     @if (starships != null)
     {
-        foreach (var starship in starships)
-        {
-            <div class="starships">
-                @{
-                    var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg";
-                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
-                }
-                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                <h3>Name: @starship.name</h3>
-                <h3>Model: @starship.model</h3>
-                <h3>Manufacturer: @starship.manufacturer</h3>
-                <h3>Cost in credits: @starship.cost_in_credits</h3>
-                <h3>Length: @starship.length</h3>
-                <h3>Max Atmosphering Speed: @starship.max_atmosphering_speed</h3>
-                <h3>Crew: @starship.crew</h3>
-                <h3>Passengers: @starship.passengers</h3>
-                <h3>Cargo Capacity: @starship.cargo_capacity</h3>
-                <h3>Consumables: @starship.consumables</h3>
-                <h3>Hyperdrive Rating: @starship.hyperdrive_rating</h3>
-                <h3>MGLT: @starship.MGLT</h3>
-                <h3>Starship Class: @starship.starship_class</h3>
-            </div>
-        }
+        <div class="container">
+            @foreach (var starship in starships)
+            {
+                <div class="starships">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3>Name: @starship.name</h3>
+                    <h3>Model: @starship.model</h3>
+                    <h3>Manufacturer: @starship.manufacturer</h3>
+                    <h3>Cost in credits: @starship.cost_in_credits</h3>
+                    <h3>Length: @starship.length</h3>
+                    <h3>Max Atmosphering Speed: @starship.max_atmosphering_speed</h3>
+                    <h3>Crew: @starship.crew</h3>
+                    <h3>Passengers: @starship.passengers</h3>
+                    <h3>Cargo Capacity: @starship.cargo_capacity</h3>
+                    <h3>Consumables: @starship.consumables</h3>
+                    <h3>Hyperdrive Rating: @starship.hyperdrive_rating</h3>
+                    <h3>MGLT: @starship.MGLT</h3>
+                    <h3>Starship Class: @starship.starship_class</h3>
+                </div>
+            }
+        </div>
     }
 </div>
 

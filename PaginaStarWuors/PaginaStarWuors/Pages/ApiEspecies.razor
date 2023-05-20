@@ -1,7 +1,112 @@
 ﻿@page "/Especies"
 
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .species {
+        margin-top: 50px;
+        border: 5px solid white;
+        margin-left: 10px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
+
 <h2>Species</h2>
 
-@code {
+<div>
+    @if (species != null)
+    {
+        <div class="container">
+            @foreach (var specie in species)
+            {
+                <div class="starships">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3>Name: @specie.name</h3>
+                    <h3>Classification: @specie.classification</h3>
+                    <h3>Designation: @specie.designation</h3>
+                    <h3>Average height: @specie.average_height</h3>
+                    <h3>Skin color: @specie.skin_colors</h3>
+                    <h3>Hair color: @specie.hair_colors</h3>
+                    <h3>Eye color: @specie.eye_colors</h3>
+                    <h3>Average Lifespan: @specie.average_lifespan</h3>
+                    <h3>Homeworld: @specie.homeworld</h3>
+                    <h3>Language: @specie.language</h3>
+                    @*                <h3>People:</h3>
+            <ul>
+            @foreach (var person in specie.people)
+            {
+            <li>@person</li>
+            }
+            </ul>
+            <h3>Films:</h3>
+            <ul>
+            @foreach (var film in specie.films)
+            {
+            <li>@film</li>
+            }
+            </ul>*@
+                </div>
+            }
+        </div>
+    }
+</div>
 
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Species> species;
+
+    protected override async Task OnInitializedAsync()
+    {
+        species = new List<Species>();
+
+        for (int i = 1; i <= 23; i++)
+        {
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.dev/api/species/{i}")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var specie = JsonSerializer.Deserialize<Species>(responseString);
+                species.Add(specie);
+            }
+        }
+    }
+
+    public class Species
+    {
+        public string name { get; set; }
+        public string classification { get; set; }
+        public string designation { get; set; }
+        public string average_height { get; set; }
+        public string skin_colors { get; set; }
+        public string hair_colors { get; set; }
+        public string eye_colors { get; set; }
+        public string average_lifespan { get; set; }
+        public string homeworld { get; set; }
+        public string language { get; set; }
+        //public string[] people { get; set; }
+        //public string[] films { get; set; }
+    }
+}
 }

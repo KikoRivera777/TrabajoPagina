@@ -9,7 +9,14 @@
     .characters {
         margin-top: 50px;
         border: 5px solid white;
+        margin-left: 10px;
+        text-align: center;
         padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
     }
 </style>
 
@@ -18,24 +25,26 @@
 <div>
     @if (characters != null)
     {
-        foreach (var character in characters)
-        {
-            <div class="characters">
-                @{
-                    var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
-                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
-                }
-                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                <h3>Name: @character.name</h3>
-                <h3>Height: @character.height ft</h3>
-                <h3>Mass: @character.mass pounds</h3>
-                <h3>Hair color: @character.hair_color</h3>
-                <h3>Skin color: @character.skin_color</h3>
-                <h3>Eye color: @character.eye_color</h3>
-                <h3>Birth year: @character.birth_year</h3>
-                <h3>Gender: @character.gender</h3>
-            </div>
-        }
+        <div class="container">
+            @foreach (var character in characters)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3>Name: @character.name</h3>
+                    <h3>Height: @character.height ft</h3>
+                    <h3>Mass: @character.mass pounds</h3>
+                    <h3>Hair color: @character.hair_color</h3>
+                    <h3>Skin color: @character.skin_color</h3>
+                    <h3>Eye color: @character.eye_color</h3>
+                    <h3>Birth year: @character.birth_year</h3>
+                    <h3>Gender: @character.gender</h3>
+                </div>
+            }
+        </div>
     }
 
 </div>

@@ -1,7 +1,93 @@
 ﻿@page "/Planetas"
 
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .planets {
+        margin-top: 50px;
+        margin-left: 10px;
+        text-align: center;
+        border: 5px solid white;
+        padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
+
 <h2>Planets</h2>
 
-@code {
+<div>
+    @if (planets != null)
+    {
+        <div class="container">
+            @foreach (var planet in planets)
+            {
+            <div class="planets">
+                @{
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/planets/{planets.IndexOf(planet) + 1}.jpg";
+                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                }
+                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                <h3>Name: @planet.name</h3>
+                <h3>Rotation period: @planet.rotation_period</h3>
+                <h3>Orbital period: @planet.orbital_period</h3>
+                <h3>Diameter: @planet.diameter</h3>
+                <h3>Climate: @planet.climate</h3>
+                <h3>Gravity: @planet.gravity</h3>
+                <h3>Terrain: @planet.terrain</h3>
+                <h3>Surface waters: @planet.surface_water</h3>
+                <h3>Population: @planet.population</h3>
+            </div>
+            }
+        </div>
+    }
+</div>
 
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Planets> planets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        planets = new List<Planets>();
+
+        for (int i = 1; i <= 23; i++)
+        {
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri($"https://swapi.dev/api/planets/{i}")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var planet = JsonSerializer.Deserialize<Planets>(responseString);
+                planets.Add(planet);
+            }
+        }
+    }
+
+    public class Planets
+    {
+        public string name { get; set; }
+        public string rotation_period { get; set; }
+        public string orbital_period { get; set; }
+        public string diameter { get; set; }
+        public string climate { get; set; }
+        public string gravity { get; set; }
+        public string terrain { get; set; }
+        public string surface_water { get; set; }
+        public string population { get; set; }
+    }
 }
