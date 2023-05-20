@@ -23,11 +23,10 @@
         {
             <div class="films">
                 @{
-                    var imageUrl = film != null
-                    ? $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg"
-                    : "https://www.rosemacsales.com/assets/images/no_image.png";
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg";
+                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
-                <img src="@imageUrl">
+                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
                 <h3>Title: @film.title</h3>
                 <h3>Episode: @film.episode_id</h3>
                 <h3>Opening crawl: @film.opening_crawl</h3>

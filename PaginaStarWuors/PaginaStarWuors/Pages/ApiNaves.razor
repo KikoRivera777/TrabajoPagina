@@ -23,11 +23,10 @@
         {
             <div class="starships">
                 @{
-                    var imageUrl = starship != null
-                    ? $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg"
-                    : "https://www.rosemacsales.com/assets/images/no_image.png";
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg";
+                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
-                <img src="@imageUrl">
+                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
                 <h3>Name: @starship.name</h3>
                 <h3>Model: @starship.model</h3>
                 <h3>Manufacturer: @starship.manufacturer</h3>
@@ -44,8 +43,8 @@
             </div>
         }
     }
-
 </div>
+
 
 @code {
     string searchstring;
