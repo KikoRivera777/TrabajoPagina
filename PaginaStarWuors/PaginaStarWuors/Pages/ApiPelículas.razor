@@ -33,6 +33,20 @@
                 <h3>Director: @film.director</h3>
                 <h3>Producer: @film.producer</h3>
                 <h3>Release date: @film.release_date</h3>
+                <h3>Characters:</h3>
+                <ul>
+                    @if (film.charactersNames == null || film.charactersNames.Count == 0)
+                    {
+                        <li>No information available</li>
+                    }
+                    else
+                    {
+                        @foreach (var characterName in film.charactersNames)
+                        {
+                            <li>@characterName</li>
+                        }
+                    }
+                </ul>
             </div>
         }
     }
@@ -63,6 +77,19 @@
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var film = JsonSerializer.Deserialize<Film>(responseString);
+
+                film.charactersNames = new List<string>();
+                foreach (var charactersUrl in film.characters)
+                {
+                    var characterResponse = await httpClient.GetAsync(charactersUrl);
+                    if (characterResponse.IsSuccessStatusCode)
+                    {
+                        var characterResponseString = await characterResponse.Content.ReadAsStringAsync();
+                        var character = JsonSerializer.Deserialize<Character>(characterResponseString);
+                        film.charactersNames.Add(character.name);
+                    }
+                }
+
                 films.Add(film);
             }
         }
@@ -76,5 +103,12 @@
         public string director { get; set; }
         public string producer { get; set; }
         public string release_date { get; set; }
+        public List<string> characters { get; set; }
+        public List<string> charactersNames { get; set; }
+    }
+
+    public class Character
+    {
+        public string name { get; set; }
     }
 }
