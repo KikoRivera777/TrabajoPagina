@@ -137,7 +137,7 @@
                     var planetResponseString = await planetResponse.Content.ReadAsStringAsync();
                     var planet = JsonSerializer.Deserialize<Planet>(planetResponseString);
                     character.homeworld = planet.name;
-                }
+                } 
 
                 // Obtener los títulos de las películas
                 character.filmTitles = new List<string>();

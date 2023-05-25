@@ -44,6 +44,34 @@
                     <h3>Cargo capacity: @vehicle.cargo_capacity</h3>
                     <h3>Consumables: @vehicle.consumables</h3>
                     <h3>Vehicle class: @vehicle.vehicle_class</h3>
+                    <h3>Films:</h3>
+                    <ul>
+                        @if (vehicle.filmTitles == null || vehicle.filmTitles.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in vehicle.filmTitles)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Pilots</h3>
+                    <ul>
+                        @if (vehicle.charactersNames == null || vehicle.charactersNames.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var characterName in vehicle.charactersNames)
+                            {
+                                <li>@characterName</li>
+                            }
+                        }
+                    </ul>
                 </div>
             }
         </div>
@@ -74,6 +102,31 @@
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var vehicle = JsonSerializer.Deserialize<Vehicles>(responseString);
+
+                vehicle.filmTitles = new List<string>();
+                foreach (var filmUrl in vehicle.films)
+                {
+                    var filmResponse = await httpClient.GetAsync(filmUrl);
+                    if (filmResponse.IsSuccessStatusCode)
+                    {
+                        var filmResponseString = await filmResponse.Content.ReadAsStringAsync();
+                        var film = JsonSerializer.Deserialize<Film>(filmResponseString);
+                        vehicle.filmTitles.Add(film.title);
+                    }
+                }
+
+                vehicle.charactersNames = new List<string>();
+                foreach (var charactersUrl in vehicle.characters)
+                {
+                    var characterResponse = await httpClient.GetAsync(charactersUrl);
+                    if (characterResponse.IsSuccessStatusCode)
+                    {
+                        var characterResponseString = await characterResponse.Content.ReadAsStringAsync();
+                        var character = JsonSerializer.Deserialize<Character>(characterResponseString);
+                        vehicle.charactersNames.Add(character.name);
+                    }
+                }
+
                 vehicles.Add(vehicle);
             }
         }
@@ -92,5 +145,19 @@
         public string cargo_capacity { get; set; }
         public string consumables { get; set; }
         public string vehicle_class { get; set; }
+        public List<string> films { get; set; }
+        public List<string> filmTitles { get; set; }
+        public List<string> characters { get; set; }
+        public List<string> charactersNames { get; set; }
+    }
+
+    public class Film
+    {
+        public string title { get; set; }
+    }
+
+    public class Character
+    {
+        public string name { get; set; }
     }
 }

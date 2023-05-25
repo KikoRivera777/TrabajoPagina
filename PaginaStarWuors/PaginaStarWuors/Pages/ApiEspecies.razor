@@ -44,17 +44,17 @@
                     <h3>Average Lifespan: @specie.average_lifespan</h3>
                     <h3>Homeworld: @specie.homeworld</h3>
                     <h3>Language: @specie.language</h3>
-                    <h3>Characters</h3>
+                    <h3>Pilots:</h3>
                     <ul>
-                        @if (specie.charactersNames == null || specie.charactersNames.Count == 0)
+                        @if (specie.pilotNames == null || specie.pilotNames.Count == 0)
                         {
                             <li>No information available</li>
                         }
                         else
                         {
-                            @foreach (var characterName in specie.charactersNames)
+                            @foreach (var filmTitle in specie.pilotNames)
                             {
-                                <li>@characterName</li>
+                                <li>@filmTitle</li>
                             }
                         }
                     </ul>
@@ -112,7 +112,7 @@
                 //    specie.homeworld = planet.name;
                 //}
 
-                //peliculas
+                ////peliculas
                 specie.filmTitles = new List<string>();
                 foreach (var filmUrl in specie.films)
                 {
@@ -125,18 +125,18 @@
                     }
                 }
 
-                //personajes
-                //specie.charactersNames = new List<string>();
-                //foreach (var charactersUrl in specie.characters)
-                //{
-                //    var characterResponse = await httpClient.GetAsync(charactersUrl);
-                //    if (characterResponse.IsSuccessStatusCode)
-                //    {
-                //        var characterResponseString = await characterResponse.Content.ReadAsStringAsync();
-                //        var character = JsonSerializer.Deserialize<Character>(characterResponseString);
-                //        specie.charactersNames.Add(character.name);
-                //    }
-                //}
+                // Obtener los nombres de los pilotos
+                specie.pilotNames = new List<string>();
+                foreach (var pilotUrl in specie.pilots)
+                {
+                    var pilotResponse = await httpClient.GetAsync(pilotUrl);
+                    if (pilotResponse.IsSuccessStatusCode)
+                    {
+                        var pilotResponseString = await pilotResponse.Content.ReadAsStringAsync();
+                        var pilot = JsonSerializer.Deserialize<Pilot>(pilotResponseString);
+                        specie.pilotNames.Add(pilot.name);
+                    }
+                }
 
                 species.Add(specie);
             }
@@ -158,8 +158,8 @@
         public List<string> people { get; set; }
         public List<string> films { get; set; }
         public List<string> filmTitles { get; set; }
-        public List<string> characters { get; set; }
-        public List<string> charactersNames { get; set; }
+        public List<string> pilots { get; set; }
+        public List<string> pilotNames { get; set; }
     }
 
     public class Planet
@@ -167,7 +167,7 @@
         public string name { get; set; }
     }
 
-    public class Character
+    public class Pilot
     {
         public string name { get; set; }
     }
@@ -176,5 +176,4 @@
     {
         public string title { get; set; }
     }
-}
 }
