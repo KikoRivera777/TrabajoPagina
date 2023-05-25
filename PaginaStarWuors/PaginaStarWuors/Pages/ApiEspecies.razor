@@ -35,45 +35,13 @@
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
                     <h3>Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</h3>
-                    <h3>Classification: @(string.IsNullOrEmpty(specie.classification) ? "No information available" : specie.classification + " ft")</h3>
-                    <h3>Designation: @(string.IsNullOrEmpty(specie.designation) ? "No information available" : specie.designation)</h3>
-                    <h3>Average height: @(string.IsNullOrEmpty(specie.average_height) ? "No information available" : specie.average_height + " ft")</h3>
-                    <h3>Skin color: @(string.IsNullOrEmpty(specie.skin_colors) ? "No information available" : specie.skin_colors)</h3>
-                    <h3>Hair color: @(string.IsNullOrEmpty(specie.hair_colors) ? "No information available" : specie.hair_colors)</h3>
-                    <h3>Eye color: @(string.IsNullOrEmpty(specie.eye_colors) ? "No information available" : specie.eye_colors)</h3>
-                    <h3>Average Lifespan: @(string.IsNullOrEmpty(specie.average_height) ? "No information avalible" : specie.average_height)</h3>
-                    <h3>Homeworld: @(string.IsNullOrEmpty(specie.homeworld) ? "No information available" : specie.homeworld)</h3>
-                    <h3>Language: @(string.IsNullOrEmpty(specie.language) ? "No information avalible" : specie.language)</h3>
-                    <h3>People:</h3>
-                    <ul>
-                        @if (specie.peopleNames == null || specie.peopleNames.Count == 0)
-                        {
-                            <li>No information available</li>
-                        }
-                        else
-                        {
-                            @foreach (var filmTitle in specie.peopleNames)
-                            {
-                                <li>@filmTitle</li>
-                            }
-                        }
-                    </ul>
-                    <h3>Films:</h3>
-                    <ul>
-                        @if (specie.filmTitles == null || specie.filmTitles.Count == 0)
-                        {
-                            <li>No information available</li>
-                        }
-                        else
-                        {
-                            @foreach (var filmTitle in specie.filmTitles)
-                            {
-                                <li>@filmTitle</li>
-                            }
-                        }
-                    </ul>
+                    <h3><a href="Especie">@specie.url</a></h3>
                 </div>
             }
+
+            <div>
+
+            </div>
         </div>
     }
 </div>
@@ -103,45 +71,6 @@
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var specie = JsonSerializer.Deserialize<Species>(responseString);
 
-                // Obtener el nombre del planeta de origen
-                // Obtener el nombre del planeta de origen
-                if (!string.IsNullOrEmpty(specie.homeworld))
-                {
-                    var planetResponse = await httpClient.GetAsync(specie.homeworld);
-                    if (planetResponse.IsSuccessStatusCode)
-                    {
-                        var planetResponseString = await planetResponse.Content.ReadAsStringAsync();
-                        var planet = JsonSerializer.Deserialize<Planet>(planetResponseString);
-                        specie.homeworld = planet.name;
-                    }
-                }
-
-                //peliculas
-                specie.filmTitles = new List<string>();
-                foreach (var filmUrl in specie.films)
-                {
-                    var filmResponse = await httpClient.GetAsync(filmUrl);
-                    if (filmResponse.IsSuccessStatusCode)
-                    {
-                        var filmResponseString = await filmResponse.Content.ReadAsStringAsync();
-                        var film = JsonSerializer.Deserialize<Film>(filmResponseString);
-                        specie.filmTitles.Add(film.title);
-                    }
-                }
-
-                // Obtener los nombres de los pilotos
-                specie.peopleNames = new List<string>();
-                foreach (var peopleUrl in specie.people)
-                {
-                    var peopleResponse = await httpClient.GetAsync(peopleUrl);
-                    if (peopleResponse.IsSuccessStatusCode)
-                    {
-                        var peopleResponseString = await peopleResponse.Content.ReadAsStringAsync();
-                        var people = JsonSerializer.Deserialize<People>(peopleResponseString);
-                        specie.peopleNames.Add(people.name);
-                    }
-                }
-
                 species.Add(specie);
             }
         }
@@ -150,33 +79,6 @@
     public class Species
     {
         public string name { get; set; }
-        public string classification { get; set; }
-        public string designation { get; set; }
-        public string average_height { get; set; }
-        public string skin_colors { get; set; }
-        public string hair_colors { get; set; }
-        public string eye_colors { get; set; }
-        public string average_lifespan { get; set; }
-        public string homeworld { get; set; }
-        public string language { get; set; }
-        public List<string> films { get; set; }
-        public List<string> filmTitles { get; set; }
-        public List<string> people { get; set; }
-        public List<string> peopleNames { get; set; }
-    }
-
-    public class Planet
-    {
-        public string name { get; set; }
-    }
-
-    public class People
-    {
-        public string name { get; set; }
-    }
-
-    public class Film
-    {
-        public string title { get; set; }
+        public string url { get; set; }
     }
 }
