@@ -60,15 +60,15 @@
                     </ul>
                     <h3>Pilots</h3>
                     <ul>
-                        @if (vehicle.charactersNames == null || vehicle.charactersNames.Count == 0)
+                        @if (vehicle.peopleNames == null || vehicle.peopleNames.Count == 0)
                         {
                             <li>No information available</li>
                         }
                         else
                         {
-                            @foreach (var characterName in vehicle.charactersNames)
+                            @foreach (var peopleName in vehicle.peopleNames)
                             {
-                                <li>@characterName</li>
+                                <li>@peopleName</li>
                             }
                         }
                     </ul>
@@ -115,15 +115,15 @@
                     }
                 }
 
-                vehicle.charactersNames = new List<string>();
-                foreach (var charactersUrl in vehicle.characters)
+                vehicle.peopleNames = new List<string>();
+                foreach (var peopleUrl in vehicle.people)
                 {
-                    var characterResponse = await httpClient.GetAsync(charactersUrl);
-                    if (characterResponse.IsSuccessStatusCode)
+                    var peopleResponse = await httpClient.GetAsync(peopleUrl);
+                    if (peopleResponse.IsSuccessStatusCode)
                     {
-                        var characterResponseString = await characterResponse.Content.ReadAsStringAsync();
-                        var character = JsonSerializer.Deserialize<Character>(characterResponseString);
-                        vehicle.charactersNames.Add(character.name);
+                        var peopleResponseString = await peopleResponse.Content.ReadAsStringAsync();
+                        var people = JsonSerializer.Deserialize<People>(peopleResponseString);
+                        vehicle.peopleNames.Add(people.name);
                     }
                 }
 
@@ -147,8 +147,8 @@
         public string vehicle_class { get; set; }
         public List<string> films { get; set; }
         public List<string> filmTitles { get; set; }
-        public List<string> characters { get; set; }
-        public List<string> charactersNames { get; set; }
+        public List<string> people { get; set; }
+        public List<string> peopleNames { get; set; }
     }
 
     public class Film
@@ -156,7 +156,7 @@
         public string title { get; set; }
     }
 
-    public class Character
+    public class People
     {
         public string name { get; set; }
     }
