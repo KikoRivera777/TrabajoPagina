@@ -1,4 +1,4 @@
-﻿@page "/Vehículos"
+﻿@page "/Especies4"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -6,7 +6,7 @@
 @inject HttpClient httpClient
 
 <style>
-    .vehicles {
+    .species {
         margin-top: 50px;
         border: 5px solid white;
         margin-left: 10px;
@@ -29,30 +29,33 @@
     }
 </style>
 
-<h2>Vehicles</h2>
+<h2>Species</h2>
 
 <div class="botones">
-    <button class="boton"><a href="Vehículos">1</a></button>
-    <button class="boton"><a href="Vehículos2">2</a></button>
-    <button class="boton"><a href="Vehículos3">3</a></button>
-    <button class="boton"><a href="Vehículos4">4</a></button>
+    <button class="boton"><a href="Especies">1</a></button>
+    <button class="boton"><a href="Especies2">2</a></button>
+    <button class="boton"><a href="Especies3">3</a></button>
+    <button class="boton"><a href="Especies4">4</a></button>
 </div>
 <div>
-    @if (vehicles != null)
+    @if (species != null)
     {
         <div class="container">
-            @foreach (var vehicle in vehicles)
+            @foreach (var specie in species)
             {
-                <div class="vehicles">
+                <div class="species">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 31}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</h3>
-                    <h3><a href="Vehículo">@vehicle.url</a></h3>
+                    <h3>Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</h3>
+                    <h3><a href="Especie">@specie.url</a></h3>
                 </div>
             }
+
+            <div>
+            </div>
         </div>
     }
 </div>
@@ -61,18 +64,18 @@
     string searchstring;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
-    List<Vehicles> vehicles;
+    List<Species> species;
 
     protected override async Task OnInitializedAsync()
     {
-        vehicles = new List<Vehicles>();
+        species = new List<Species>();
 
-        for (int i = 4; i <= 24; i++)
+        for (int i = 31; i <= 37; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.dev/api/vehicles/{i}")
+                    RequestUri = new Uri($"https://swapi.dev/api/species/{i}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
@@ -80,14 +83,14 @@
             if (responseMessage.IsSuccessStatusCode)
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
-                var vehicle = JsonSerializer.Deserialize<Vehicles>(responseString);
+                var specie = JsonSerializer.Deserialize<Species>(responseString);
 
-                vehicles.Add(vehicle);
+                species.Add(specie);
             }
         }
     }
 
-    public class Vehicles
+    public class Species
     {
         public string name { get; set; }
         public string url { get; set; }
