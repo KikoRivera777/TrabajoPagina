@@ -34,16 +34,16 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @specie.name</h3>
-                    <h3>Classification: @specie.classification</h3>
-                    <h3>Designation: @specie.designation</h3>
-                    <h3>Average height: @specie.average_height</h3>
-                    <h3>Skin color: @specie.skin_colors</h3>
-                    <h3>Hair color: @specie.hair_colors</h3>
-                    <h3>Eye color: @specie.eye_colors</h3>
-                    <h3>Average Lifespan: @specie.average_lifespan</h3>
-                    <h3>Homeworld: @specie.homeworld</h3>
-                    <h3>Language: @specie.language</h3>
+                    <h3>Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</h3>
+                    <h3>Classification: @(string.IsNullOrEmpty(specie.classification) ? "No information available" : specie.classification + " ft")</h3>
+                    <h3>Designation: @(string.IsNullOrEmpty(specie.designation) ? "No information available" : specie.designation)</h3>
+                    <h3>Average height: @(string.IsNullOrEmpty(specie.average_height) ? "No information available" : specie.average_height + " ft")</h3>
+                    <h3>Skin color: @(string.IsNullOrEmpty(specie.skin_colors) ? "No information available" : specie.skin_colors)</h3>
+                    <h3>Hair color: @(string.IsNullOrEmpty(specie.hair_colors) ? "No information available" : specie.hair_colors)</h3>
+                    <h3>Eye color: @(string.IsNullOrEmpty(specie.eye_colors) ? "No information available" : specie.eye_colors)</h3>
+                    <h3>Average Lifespan: @(string.IsNullOrEmpty(specie.average_height) ? "No information avalible" : specie.average_height)</h3>
+                    <h3>Homeworld: @(string.IsNullOrEmpty(specie.homeworld) ? "No information available" : specie.homeworld)</h3>
+                    <h3>Language: @(string.IsNullOrEmpty(specie.language) ? "No information avalible" : specie.language)</h3>
                     <h3>People:</h3>
                     <ul>
                         @if (specie.peopleNames == null || specie.peopleNames.Count == 0)
@@ -102,6 +102,19 @@
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var specie = JsonSerializer.Deserialize<Species>(responseString);
+
+                // Obtener el nombre del planeta de origen
+                // Obtener el nombre del planeta de origen
+                if (!string.IsNullOrEmpty(specie.homeworld))
+                {
+                    var planetResponse = await httpClient.GetAsync(specie.homeworld);
+                    if (planetResponse.IsSuccessStatusCode)
+                    {
+                        var planetResponseString = await planetResponse.Content.ReadAsStringAsync();
+                        var planet = JsonSerializer.Deserialize<Planet>(planetResponseString);
+                        specie.homeworld = planet.name;
+                    }
+                }
 
                 //peliculas
                 specie.filmTitles = new List<string>();

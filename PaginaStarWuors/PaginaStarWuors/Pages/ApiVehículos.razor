@@ -9,6 +9,7 @@
     .vehicles {
         margin-top: 50px;
         border: 5px solid white;
+        margin-left: 10px;
         text-align: center;
         padding: 10px;
     }
@@ -33,17 +34,17 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @vehicle.name</h3>
-                    <h3>Model: @vehicle.model</h3>
-                    <h3>Manufacturer: @vehicle.manufacturer</h3>
-                    <h3>Cost in credits: @vehicle.cost_in_credits</h3>
-                    <h3>Length: @vehicle.length</h3>
-                    <h3>Max atmosphering speed: @vehicle.max_atmosphering_speed</h3>
-                    <h3>Crew: @vehicle.crew</h3>
-                    <h3>Passengers: @vehicle.passengers</h3>
-                    <h3>Cargo capacity: @vehicle.cargo_capacity</h3>
-                    <h3>Consumables: @vehicle.consumables</h3>
-                    <h3>Vehicle class: @vehicle.vehicle_class</h3>
+                    <h3>Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</h3>
+                    <h3>Model: @(string.IsNullOrEmpty(vehicle.model) ? "No information avalible" : vehicle.model)</h3>
+                    <h3>Manufacturer: @(string.IsNullOrEmpty(vehicle.manufacturer) ? "No information avalible" : vehicle.manufacturer)</h3>
+                    <h3>Cost in credits: @(string.IsNullOrEmpty(vehicle.cost_in_credits) ? "No information" : vehicle.cost_in_credits)</h3>
+                    <h3>Length: @(string.IsNullOrEmpty(vehicle.length) ? "No information avalible" : vehicle.length)</h3>
+                    <h3>Max atmosphering speed: @(string.IsNullOrEmpty(vehicle.max_atmosphering_speed) ? "No information avalible" : vehicle.max_atmosphering_speed)</h3>
+                    <h3>Crew: @(string.IsNullOrEmpty(vehicle.crew) ? "No information avalible" : vehicle.crew)</h3>
+                    <h3>Passengers: @(string.IsNullOrEmpty(vehicle.passengers) ? "No information avalible" : vehicle.passengers)</h3>
+                    <h3>Cargo capacity: @(string.IsNullOrEmpty(vehicle.cargo_capacity) ? "No information avalible" : vehicle.cargo_capacity)</h3>
+                    <h3>Consumables: @(string.IsNullOrEmpty(vehicle.consumables) ? "No information avalible" : vehicle.consumables)</h3>
+                    <h3>Vehicle class: @(string.IsNullOrEmpty(vehicle.vehicle_class) ? "No information avalible" : vehicle.vehicle_class)</h3>
                     <h3>Films:</h3>
                     <ul>
                         @if (vehicle.filmTitles == null || vehicle.filmTitles.Count == 0)
@@ -60,15 +61,15 @@
                     </ul>
                     <h3>Pilots</h3>
                     <ul>
-                        @if (vehicle.peopleNames == null || vehicle.peopleNames.Count == 0)
+                        @if (vehicle.pilotNames == null || vehicle.pilotNames.Count == 0)
                         {
                             <li>No information available</li>
                         }
                         else
                         {
-                            @foreach (var peopleName in vehicle.peopleNames)
+                            @foreach (var pilotName in vehicle.pilotNames)
                             {
-                                <li>@peopleName</li>
+                                <li>@pilotName</li>
                             }
                         }
                     </ul>
@@ -88,7 +89,7 @@
     {
         vehicles = new List<Vehicles>();
 
-        for (int i = 1; i <= 23; i++)
+        for (int i = 1; i <= 76; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
@@ -115,15 +116,16 @@
                     }
                 }
 
-                vehicle.peopleNames = new List<string>();
-                foreach (var peopleUrl in vehicle.people)
+                // Obtener los nombres de los pilotos
+                vehicle.pilotNames = new List<string>();
+                foreach (var pilotUrl in vehicle.pilots)
                 {
-                    var peopleResponse = await httpClient.GetAsync(peopleUrl);
-                    if (peopleResponse.IsSuccessStatusCode)
+                    var pilotResponse = await httpClient.GetAsync(pilotUrl);
+                    if (pilotResponse.IsSuccessStatusCode)
                     {
-                        var peopleResponseString = await peopleResponse.Content.ReadAsStringAsync();
-                        var people = JsonSerializer.Deserialize<People>(peopleResponseString);
-                        vehicle.peopleNames.Add(people.name);
+                        var pilotResponseString = await pilotResponse.Content.ReadAsStringAsync();
+                        var pilot = JsonSerializer.Deserialize<Pilot>(pilotResponseString);
+                        vehicle.pilotNames.Add(pilot.name);
                     }
                 }
 
@@ -147,8 +149,8 @@
         public string vehicle_class { get; set; }
         public List<string> films { get; set; }
         public List<string> filmTitles { get; set; }
-        public List<string> people { get; set; }
-        public List<string> peopleNames { get; set; }
+        public List<string> pilots { get; set; }
+        public List<string> pilotNames { get; set; }
     }
 
     public class Film
@@ -156,7 +158,7 @@
         public string title { get; set; }
     }
 
-    public class People
+    public class Pilot
     {
         public string name { get; set; }
     }
