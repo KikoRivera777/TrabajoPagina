@@ -27,12 +27,12 @@
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                <h3>Title: @film.title</h3>
+                <h3>Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</h3>
                 <h3>Episode: @film.episode_id</h3>
-                <h3>Opening crawl: @film.opening_crawl</h3>
-                <h3>Director: @film.director</h3>
-                <h3>Producer: @film.producer</h3>
-                <h3>Release date: @film.release_date</h3>
+                <h3>Opening crawl: @(string.IsNullOrEmpty(film.opening_crawl) ? "No information avalible" : film.opening_crawl)</h3>
+                <h3>Director: @(string.IsNullOrEmpty(film.director) ? "No information avalible" : film.director)</h3>
+                <h3>Producer: @(string.IsNullOrEmpty(film.producer) ? "No information avalible" : film.producer)</h3>
+                <h3>Release date: @(string.IsNullOrEmpty(film.release_date) ? "No information avalible" : film.release_date)</h3>
                 <h3>Characters:</h3>
                 <ul>
                     @if (film.charactersNames == null || film.charactersNames.Count == 0)
