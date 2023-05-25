@@ -34,15 +34,43 @@
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                <h3>Name: @planet.name</h3>
-                <h3>Rotation period: @planet.rotation_period</h3>
-                <h3>Orbital period: @planet.orbital_period</h3>
-                <h3>Diameter: @planet.diameter</h3>
-                <h3>Climate: @planet.climate</h3>
-                <h3>Gravity: @planet.gravity</h3>
-                <h3>Terrain: @planet.terrain</h3>
-                <h3>Surface waters: @planet.surface_water</h3>
-                <h3>Population: @planet.population</h3>
+                    <h3>Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</h3>
+                    <h3>Rotation period: @(string.IsNullOrEmpty(planet.rotation_period) ? "No information avalible" : planet.rotation_period)</h3>
+                    <h3>Orbital period: @(string.IsNullOrEmpty(planet.orbital_period) ? "No information avalible" : planet.orbital_period)</h3>
+                    <h3>Diameter: @(string.IsNullOrEmpty(planet.diameter) ? "No information avalible" : planet.diameter)</h3>
+                    <h3>Climate: @(string.IsNullOrEmpty(planet.climate) ? "No information avalible" : planet.climate)</h3>
+                    <h3>Gravity: @(string.IsNullOrEmpty(planet.gravity) ? "No information avalible" : planet.gravity)</h3>
+                    <h3>Terrain: @(string.IsNullOrEmpty(planet.terrain) ? "No information avalible" : planet.terrain)</h3>
+                    <h3>Surface waters: @(string.IsNullOrEmpty(planet.surface_water) ? "No information avalible" : planet.surface_water)</h3>
+                    <h3>Population: @(string.IsNullOrEmpty(planet.population) ? "No information avalible" : planet.population)</h3>
+                    <h3>Residents:</h3>
+                    <ul>
+                        @if (planet.residentNames == null || planet.residentNames.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in planet.residentNames)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Films:</h3>
+                    <ul>
+                        @if (planet.filmTitles == null || planet.filmTitles.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in planet.filmTitles)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
             </div>
             }
         </div>
@@ -73,6 +101,31 @@
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var planet = JsonSerializer.Deserialize<Planets>(responseString);
+                // Obtener los nombres de las películas
+                planet.filmTitles = new List<string>();
+                foreach (var filmUrl in planet.films)
+                {
+                    var filmResponse = await httpClient.GetAsync(filmUrl);
+                    if (filmResponse.IsSuccessStatusCode)
+                    {
+                        var filmResponseString = await filmResponse.Content.ReadAsStringAsync();
+                        var film = JsonSerializer.Deserialize<Film>(filmResponseString);
+                        planet.filmTitles.Add(film.title);
+                    }
+                }
+
+                // Obtener los nombres de los pilotos
+                planet.residentNames = new List<string>();
+                foreach (var residentUrl in planet.residents)
+                {
+                    var residentResponse = await httpClient.GetAsync(residentUrl);
+                    if (residentResponse.IsSuccessStatusCode)
+                    {
+                        var residentResponseString = await residentResponse.Content.ReadAsStringAsync();
+                        var resident = JsonSerializer.Deserialize<Resident>(residentResponseString);
+                        planet.residentNames.Add(resident.name);
+                    }
+                }
                 planets.Add(planet);
             }
         }
@@ -89,5 +142,19 @@
         public string terrain { get; set; }
         public string surface_water { get; set; }
         public string population { get; set; }
+        public List<string> residents { get; set; }
+        public List<string> residentNames { get; set; }
+        public List<string> films { get; set; }
+        public List<string> filmTitles { get; set; }
+    }
+
+    public class Film
+    {
+        public string title { get; set; }
+    }
+
+    public class Resident
+    {
+        public string name { get; set; }
     }
 }
