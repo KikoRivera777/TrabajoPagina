@@ -34,7 +34,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @character.name</h3>
+                    <h3>Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</h3>
                     <h3>Height: @(string.IsNullOrEmpty(character.height) ? "No information available" : character.height + " ft")</h3>
                     <h3>Mass: @(string.IsNullOrEmpty(character.mass) ? "No information available" : character.mass + " pounds")</h3>
                     <h3>Hair color: @(string.IsNullOrEmpty(character.hair_color) ? "No information available" : character.hair_color)</h3>

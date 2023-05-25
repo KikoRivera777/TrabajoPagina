@@ -34,19 +34,19 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @starship.name</h3>
-                    <h3>Model: @starship.model</h3>
-                    <h3>Manufacturer: @starship.manufacturer</h3>
-                    <h3>Cost in credits: @starship.cost_in_credits</h3>
-                    <h3>Length: @starship.length</h3>
-                    <h3>Max Atmosphering Speed: @starship.max_atmosphering_speed</h3>
-                    <h3>Crew: @starship.crew</h3>
-                    <h3>Passengers: @starship.passengers</h3>
-                    <h3>Cargo Capacity: @starship.cargo_capacity</h3>
-                    <h3>Consumables: @starship.consumables</h3>
-                    <h3>Hyperdrive Rating: @starship.hyperdrive_rating</h3>
-                    <h3>MGLT: @starship.MGLT</h3>
-                    <h3>Starship Class: @starship.starship_class</h3>
+                    <h3>Name: @(string.IsNullOrEmpty(starship.name) ? "No information avalible" : starship.name)</h3>
+                    <h3>Model: @(string.IsNullOrEmpty(starship.model) ? "No information avalible" : starship.model)</h3>
+                    <h3>Manufacturer: @(string.IsNullOrEmpty(starship.manufacturer) ? "No information avalible" : starship.manufacturer)</h3>
+                    <h3>Cost in credits: @(string.IsNullOrEmpty(starship.cost_in_credits) ? "No information" : starship.cost_in_credits)</h3>
+                    <h3>Length: @(string.IsNullOrEmpty(starship.length) ? "No information avalible": starship.length)</h3>
+                    <h3>Max Atmosphering Speed: @(string.IsNullOrEmpty(starship.max_atmosphering_speed) ? "No information avalible" : starship.max_atmosphering_speed)</h3>
+                    <h3>Crew: @(string.IsNullOrEmpty(starship.crew) ? "No information avalible" : starship.crew)</h3>
+                    <h3>Passengers: @(string.IsNullOrEmpty(starship.passengers) ? "No information avalible" : starship.passengers)</h3>
+                    <h3>Cargo Capacity: @(string.IsNullOrEmpty(starship.cargo_capacity) ? "No information avalible" : starship.cargo_capacity)</h3>
+                    <h3>Consumables: @(string.IsNullOrEmpty(starship.consumables) ? "No information avalible" : starship.consumables)</h3>
+                    <h3>Hyperdrive Rating: @(string.IsNullOrEmpty(starship.hyperdrive_rating) ? "No information avalible" : starship.hyperdrive_rating)</h3>
+                    <h3>MGLT: @(string.IsNullOrEmpty(starship.MGLT) ? "No information avalible" : starship.MGLT)</h3>
+                    <h3>Starship Class: @(string.IsNullOrEmpty(starship.starship_class) ? "No information avalible" : starship.starship_class)</h3>
                     <h3>Pilots:</h3>
                     <ul>
                         @if (starship.pilotNames == null || starship.pilotNames.Count == 0)
@@ -91,7 +91,7 @@
     {
         starships = new List<Starship>();
 
-        for (int i = 2; i <= 23; i++)
+        for (int i = 1; i <= 75; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
