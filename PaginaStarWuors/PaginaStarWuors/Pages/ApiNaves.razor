@@ -47,12 +47,39 @@
                     <h3>Hyperdrive Rating: @starship.hyperdrive_rating</h3>
                     <h3>MGLT: @starship.MGLT</h3>
                     <h3>Starship Class: @starship.starship_class</h3>
+                    <h3>Pilots:</h3>
+                    <ul>
+                        @if (starship.pilotNames == null || starship.pilotNames.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in starship.pilotNames)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Films:</h3>
+                    <ul>
+                        @if (starship.filmTitles == null || starship.filmTitles.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in starship.filmTitles)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
                 </div>
             }
         </div>
     }
 </div>
-
 
 @code {
     string searchstring;
@@ -64,7 +91,7 @@
     {
         starships = new List<Starship>();
 
-        for (int i = 1; i <= 23; i++)
+        for (int i = 2; i <= 23; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
@@ -78,6 +105,33 @@
             {
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var starship = JsonSerializer.Deserialize<Starship>(responseString);
+
+                // Obtener los nombres de las películas
+                starship.filmTitles = new List<string>();
+                foreach (var filmUrl in starship.films)
+                {
+                    var filmResponse = await httpClient.GetAsync(filmUrl);
+                    if (filmResponse.IsSuccessStatusCode)
+                    {
+                        var filmResponseString = await filmResponse.Content.ReadAsStringAsync();
+                        var film = JsonSerializer.Deserialize<Film>(filmResponseString);
+                        starship.filmTitles.Add(film.title);
+                    }
+                }
+
+                // Obtener los nombres de los pilotos
+                starship.pilotNames = new List<string>();
+                foreach (var pilotUrl in starship.pilots)
+                {
+                    var pilotResponse = await httpClient.GetAsync(pilotUrl);
+                    if (pilotResponse.IsSuccessStatusCode)
+                    {
+                        var pilotResponseString = await pilotResponse.Content.ReadAsStringAsync();
+                        var pilot = JsonSerializer.Deserialize<Pilot>(pilotResponseString);
+                        starship.pilotNames.Add(pilot.name);
+                    }
+                }
+
                 starships.Add(starship);
             }
         }
@@ -98,6 +152,19 @@
         public string hyperdrive_rating { get; set; }
         public string MGLT { get; set; }
         public string starship_class { get; set; }
-        
+        public List<string> films { get; set; }
+        public List<string> pilots { get; set; }
+        public List<string> filmTitles { get; set; }
+        public List<string> pilotNames { get; set; }
+    }
+
+    public class Film
+    {
+        public string title { get; set; }
+    }
+
+    public class Pilot
+    {
+        public string name { get; set; }
     }
 }
