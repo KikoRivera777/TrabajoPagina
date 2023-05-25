@@ -1,0 +1,242 @@
+﻿@page "/Personaje"
+
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .characters {
+        margin-top: 50px;
+        border: 5px solid white;
+        margin-left: 10px;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+</style>
+
+<h2>Character description</h2>
+
+<div>
+    @if (characters != null)
+    {
+        <div class="container">
+            @foreach (var character in characters)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3>Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</h3>
+                    <h3>Height: @(string.IsNullOrEmpty(character.height) ? "No information available" : character.height + " ft")</h3>
+                    <h3>Mass: @(string.IsNullOrEmpty(character.mass) ? "No information available" : character.mass + " pounds")</h3>
+                    <h3>Hair color: @(string.IsNullOrEmpty(character.hair_color) ? "No information available" : character.hair_color)</h3>
+                    <h3>Skin color: @(string.IsNullOrEmpty(character.skin_color) ? "No information available" : character.skin_color)</h3>
+                    <h3>Eye color: @(string.IsNullOrEmpty(character.eye_color) ? "No information available" : character.eye_color)</h3>
+                    <h3>Birth year: @(string.IsNullOrEmpty(character.birth_year) ? "No information available" : character.birth_year)</h3>
+                    <h3>Gender: @(string.IsNullOrEmpty(character.gender) ? "No information available" : character.gender)</h3>
+                    <h3>Homeworld: @(string.IsNullOrEmpty(character.homeworld) ? "No information available" : character.homeworld)</h3>
+                    <h3>Films:</h3>
+                    <ul>
+                        @if (character.filmTitles == null || character.filmTitles.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var filmTitle in character.filmTitles)
+                            {
+                                <li>@filmTitle</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Species:</h3>
+                    <ul>
+                        @if (character.speciesNames == null || character.speciesNames.Count == 0)
+                        {
+                            <li>Human or similar</li>
+                        }
+                        else
+                        {
+                            @foreach (var speciesName in character.speciesNames)
+                            {
+                                <li>@speciesName</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Vehicles:</h3>
+                    <ul>
+                        @if (character.vehicleNames == null || character.vehicleNames.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var vehicleName in character.vehicleNames)
+                            {
+                                <li>@vehicleName</li>
+                            }
+                        }
+                    </ul>
+                    <h3>Starships:</h3>
+                    <ul>
+                        @if (character.starshipNames == null || character.starshipNames.Count == 0)
+                        {
+                            <li>No information available</li>
+                        }
+                        else
+                        {
+                            @foreach (var starshipName in character.starshipNames)
+                            {
+                                <li>@starshipName</li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Character> characters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        characters = new List<Character>();
+
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://swapi.dev/api/people/1")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var character = JsonSerializer.Deserialize<Character>(responseString);
+
+                // Obtener el nombre del planeta de origen
+                var planetResponse = await httpClient.GetAsync(character.homeworld);
+                if (planetResponse.IsSuccessStatusCode)
+                {
+                    var planetResponseString = await planetResponse.Content.ReadAsStringAsync();
+                    var planet = JsonSerializer.Deserialize<Planet>(planetResponseString);
+                    character.homeworld = planet.name;
+                }
+
+                // Obtener los títulos de las películas
+                character.filmTitles = new List<string>();
+                foreach (var filmUrl in character.films)
+                {
+                    var filmResponse = await httpClient.GetAsync(filmUrl);
+                    if (filmResponse.IsSuccessStatusCode)
+                    {
+                        var filmResponseString = await filmResponse.Content.ReadAsStringAsync();
+                        var film = JsonSerializer.Deserialize<Film>(filmResponseString);
+                        character.filmTitles.Add(film.title);
+                    }
+                }
+
+                // Obtener los nombres de las especies
+                character.speciesNames = new List<string>();
+                foreach (var speciesUrl in character.species)
+                {
+                    var speciesResponse = await httpClient.GetAsync(speciesUrl);
+                    if (speciesResponse.IsSuccessStatusCode)
+                    {
+                        var speciesResponseString = await speciesResponse.Content.ReadAsStringAsync();
+                        var species = JsonSerializer.Deserialize<Species>(speciesResponseString);
+                        character.speciesNames.Add(species.name);
+                    }
+                }
+
+                // Obtener los nombres de los vehículos
+                character.vehicleNames = new List<string>();
+                foreach (var vehicleUrl in character.vehicles)
+                {
+                    var vehicleResponse = await httpClient.GetAsync(vehicleUrl);
+                    if (vehicleResponse.IsSuccessStatusCode)
+                    {
+                        var vehicleResponseString = await vehicleResponse.Content.ReadAsStringAsync();
+                        var vehicle = JsonSerializer.Deserialize<Vehicle>(vehicleResponseString);
+                        character.vehicleNames.Add(vehicle.name);
+                    }
+                }
+
+                // Obtener los nombres de las naves espaciales
+                character.starshipNames = new List<string>();
+                foreach (var starshipUrl in character.starships)
+                {
+                    var starshipResponse = await httpClient.GetAsync(starshipUrl);
+                    if (starshipResponse.IsSuccessStatusCode)
+                    {
+                        var starshipResponseString = await starshipResponse.Content.ReadAsStringAsync();
+                        var starship = JsonSerializer.Deserialize<Starship>(starshipResponseString);
+                        character.starshipNames.Add(starship.name);
+                    }
+                }
+
+                characters.Add(character);
+            }
+    }
+
+    public class Character
+    {
+        public string name { get; set; }
+        public string height { get; set; }
+        public string mass { get; set; }
+        public string hair_color { get; set; }
+        public string skin_color { get; set; }
+        public string eye_color { get; set; }
+        public string birth_year { get; set; }
+        public string gender { get; set; }
+        public string homeworld { get; set; }
+        public List<string> films { get; set; }
+        public List<string> filmTitles { get; set; }
+        public List<string> species { get; set; }
+        public List<string> speciesNames { get; set; }
+        public List<string> vehicles { get; set; }
+        public List<string> vehicleNames { get; set; }
+        public List<string> starships { get; set; }
+        public List<string> starshipNames { get; set; }
+    }
+
+    public class Planet
+    {
+        public string name { get; set; }
+    }
+
+    public class Film
+    {
+        public string title { get; set; }
+    }
+
+    public class Species
+    {
+        public string name { get; set; }
+    }
+
+    public class Vehicle
+    {
+        public string name { get; set; }
+    }
+
+    public class Starship
+    {
+        public string name { get; set; }
+    }
+}
+
