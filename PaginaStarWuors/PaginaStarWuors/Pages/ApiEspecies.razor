@@ -28,7 +28,7 @@
         <div class="container">
             @foreach (var specie in species)
             {
-                <div class="starships">
+                <div class="species">
                     @{
                         var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 1}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
@@ -88,7 +88,7 @@
     {
         species = new List<Species>();
 
-        for (int i = 1; i <= 23; i++)
+        for (int i = 1; i <= 37; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
