@@ -1,4 +1,4 @@
-﻿@page "/Vehículos"
+﻿@page "/Vehículos2"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -45,7 +45,7 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -67,7 +67,7 @@
     {
         vehicles = new List<Vehicles>();
 
-        for (int i = 4; i <= 24; i++)
+        for (int i = 25; i <= 42; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
