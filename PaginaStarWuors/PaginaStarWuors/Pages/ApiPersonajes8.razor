@@ -1,4 +1,4 @@
-﻿@page "/Personajes"
+﻿@page "/Personajes8"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -24,7 +24,7 @@
         justify-content: center;
     }
 
-    .boton{
+    .boton {
         margin: 0 5px;
     }
 </style>
@@ -49,7 +49,7 @@
             {
                 <div class="characters">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 82}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -70,7 +70,7 @@
     {
         characters = new List<Character>();
 
-        for (int i = 1; i <= 10; i++)
+        for (int i = 82; i <= 83; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
