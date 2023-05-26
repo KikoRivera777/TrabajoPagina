@@ -3,6 +3,7 @@
 @using System.Net.Http;
 @using System.Text.Json;
 @using System.Collections.Generic;
+@using System.Linq;
 @inject HttpClient httpClient
 
 <style>
@@ -24,7 +25,7 @@
         justify-content: center;
     }
 
-    .boton{
+    .boton {
         margin: 0 5px;
     }
 </style>
@@ -32,6 +33,9 @@
 <h2>Characters</h2>
 
 <div class="botones">
+    <div class="buscador">
+        <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
+    </div>
     <button class="boton"><a href="Personajes">1</a></button>
     <button class="boton"><a href="Personajes2">2</a></button>
     <button class="boton"><a href="Personajes3">3</a></button>
@@ -40,12 +44,16 @@
     <button class="boton"><a href="Personajes6">6</a></button>
     <button class="boton"><a href="Personajes7">7</a></button>
     <button class="boton"><a href="Personajes8">8</a></button>
+    <button class="boton"><a href="Personajes9">9</a></button>
+    <button class="boton" @onclick="MostrarDefaultCharacters">Default</button>
+    <button class="boton" @onclick="MostrarAscCharacters">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescCharacters">Descendent</button>
 </div>
 <div>
-    @if (characters != null)
+    @if (mostrarDefaultCharacters)
     {
         <div class="container">
-            @foreach (var character in characters)
+            @foreach (var character in searchCharacters)
             {
                 <div class="characters">
                     @{
@@ -58,13 +66,56 @@
             }
         </div>
     }
+    else if (mostrarAscCharacters)
+    {
+        <div class="container">
+            @foreach (var character in AscCharacters)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescCharacters)
+    {
+        <div class="container">
+            @foreach (var character in DescCharacters)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No se ha seleccionado ninguna opción de orden.</p>
+    }
 </div>
 
 @code {
-    string searchstring;
+    string searchstring = string.Empty;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Character> searchCharacters => characters.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
+    List<Character> AscCharacters;
+    List<Character> DescCharacters;
     List<Character> characters;
+
+    private bool mostrarDefaultCharacters = true;
+    private bool mostrarAscCharacters = false;
+    private bool mostrarDescCharacters = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,10 +136,32 @@
                 var responseString = await responseMessage.Content.ReadAsStringAsync();
                 var character = JsonSerializer.Deserialize<Character>(responseString);
 
-
                 characters.Add(character);
             }
         }
+    }
+
+    private void MostrarDefaultCharacters()
+    {
+        mostrarDefaultCharacters = true;
+        mostrarAscCharacters = false;
+        mostrarDescCharacters = false;
+    }
+
+    private void MostrarAscCharacters()
+    {
+        AscCharacters = characters.OrderBy(x => x.name).ToList();
+        mostrarDefaultCharacters = false;
+        mostrarAscCharacters = true;
+        mostrarDescCharacters = false;
+    }
+
+    private void MostrarDescCharacters()
+    {
+        DescCharacters = characters.OrderByDescending(x => x.name).ToList();
+        mostrarDefaultCharacters = false;
+        mostrarAscCharacters = false;
+        mostrarDescCharacters = true;
     }
 
     public class Character

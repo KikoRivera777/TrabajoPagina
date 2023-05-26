@@ -33,6 +33,9 @@
 <h2>Starships</h2>
 
 <div class="botones">
+    <div class="buscador">
+        <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
+    </div>
     <button class="boton"><a href="Naves">1</a></button>
     <button class="boton"><a href="Naves2">2</a></button>
     <button class="boton"><a href="Naves3">3</a></button>
@@ -46,7 +49,7 @@
     @if (mostrarDefaultStarships)
     {
         <div class="container">
-            @foreach (var starship in starships)
+            @foreach (var starship in searchStarships)
             {
                 <div class="starships">
                     @{
@@ -98,9 +101,10 @@
 </div>
 
 @code {
-    string searchstring;
+    string searchstring = string.Empty;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Starship> searchStarships => starships.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Starship> AscStarships;
     List<Starship> DescStarships;
     List<Starship> starships;
@@ -143,7 +147,6 @@
     private void MostrarAscStarships()
     {
         AscStarships = starships.OrderBy(x => x.name).ToList();
-        DescStarships = starships.OrderByDescending(x => x.name).ToList();
         mostrarDefaultStarships = false;
         mostrarAscStarships = true;
         mostrarDescStarships = false;
@@ -152,7 +155,6 @@
     private void MostrarDescStarships()
     {
         DescStarships = starships.OrderByDescending(x => x.name).ToList();
-        AscStarships = starships.OrderBy(x => x.name).ToList();
         mostrarDefaultStarships = false;
         mostrarAscStarships = false;
         mostrarDescStarships = true;
