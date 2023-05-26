@@ -4,6 +4,7 @@
 @using System.Net.Http;
 @using System.Text.Json;
 @using System.Collections.Generic;
+@using System.Linq;
 @inject HttpClient httpClient
 
 <style>
@@ -25,6 +26,9 @@
 
 <h2>Films</h2>
 <div class="botones">
+    <div class="buscador">
+        <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
+    </div>
     <button class="boton"><a href="Películas">1</a></button>
     <button class="boton"><a href="Películas2">2</a></button>
 </div>
@@ -32,7 +36,7 @@
 <div>
     @if (films != null)
     {
-        foreach (var film in films)
+        foreach (var film in searchFilms)
         {
             <div class="films">
                 @{
@@ -49,9 +53,10 @@
 </div>
 
 @code {
-    string searchstring;
+    string searchstring = string.Empty;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Film> searchFilms => films.Where(x => x.title.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Film> films;
 
     protected override async Task OnInitializedAsync()
