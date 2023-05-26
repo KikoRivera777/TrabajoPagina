@@ -55,7 +55,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -71,7 +71,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -87,7 +87,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -102,6 +102,7 @@
     List<Vehicles> AscVehicles;
     List<Vehicles> DescVehicles;
     List<Vehicles> vehicles;
+    public int VehicleIndex { get; set; }
 
     private bool mostrarDefaultVehicles = true;
     private bool mostrarAscVehicles = false;

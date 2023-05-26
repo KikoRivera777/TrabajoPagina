@@ -52,11 +52,11 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 58}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 58)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 58">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -68,11 +68,11 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 58}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 58)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 58">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -84,11 +84,11 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 58}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 58)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 58">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -103,6 +103,7 @@
     List<Vehicles> AscVehicles;
     List<Vehicles> DescVehicles;
     List<Vehicles> vehicles;
+    int VehicleIndex { get; set; }
 
     private bool mostrarDefaultVehicles = true;
     private bool mostrarAscVehicles = false;
