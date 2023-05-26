@@ -3,6 +3,7 @@
 @using System.Net.Http;
 @using System.Text.Json;
 @using System.Collections.Generic;
+@using System.Linq;
 @inject HttpClient httpClient
 
 <style>
@@ -31,6 +32,9 @@
 
 <h2>Planets</h2>
 <div class="botones">
+    <div class="buscador">
+        <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
+    </div>
     <button class="boton"><a href="Planetas">1</a></button>
     <button class="boton"><a href="Planetas2">2</a></button>
     <button class="boton"><a href="Planetas3">3</a></button>
@@ -43,7 +47,7 @@
     @if (planets != null)
     {
         <div class="container">
-            @foreach (var planet in planets)
+            @foreach (var planet in searchPlanets)
             {
             <div class="planets">
                 @{
@@ -60,9 +64,10 @@
 </div>
 
 @code {
-    string searchstring;
+    string searchstring = string.Empty;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Planets> searchPlanets => planets.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Planets> planets;
 
     protected override async Task OnInitializedAsync()
