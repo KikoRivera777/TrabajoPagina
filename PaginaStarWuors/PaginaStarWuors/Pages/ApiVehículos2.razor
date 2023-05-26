@@ -39,9 +39,12 @@
     <button class="boton"><a href="Vehículos2">2</a></button>
     <button class="boton"><a href="Vehículos3">3</a></button>
     <button class="boton"><a href="Vehículos4">4</a></button>
+    <button class="boton" @onclick="MostrarDefaultVehicles">Default</button>
+    <button class="boton" @onclick="MostrarAscVehicles">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescVehicles">Descendent</button>
 </div>
 <div>
-    @if (vehicles != null)
+    @if (mostrarDefaultVehicles)
     {
         <div class="container">
             @foreach (var vehicle in searchVehicles)
@@ -52,8 +55,39 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</h3>
-                    <h3><a href="Vehículo">@vehicle.url</a></h3>
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarAscVehicles)
+    {
+        <div class="container">
+            @foreach (var vehicle in AscVehicles)
+            {
+                <div class="vehicles">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescVehicles)
+    {
+        <div class="container">
+            @foreach (var vehicle in DescVehicles)
+            {
+                <div class="vehicles">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information avalible" : vehicle.name)</a></h3>
                 </div>
             }
         </div>
@@ -65,7 +99,13 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Vehicles> searchVehicles => vehicles.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
+    List<Vehicles> AscVehicles;
+    List<Vehicles> DescVehicles;
     List<Vehicles> vehicles;
+
+    private bool mostrarDefaultVehicles = true;
+    private bool mostrarAscVehicles = false;
+    private bool mostrarDescVehicles = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,6 +129,29 @@
                 vehicles.Add(vehicle);
             }
         }
+    }
+
+    private void MostrarDefaultVehicles()
+    {
+        mostrarDefaultVehicles = true;
+        mostrarAscVehicles = false;
+        mostrarDescVehicles = false;
+    }
+
+    private void MostrarAscVehicles()
+    {
+        AscVehicles = vehicles.OrderBy(x => x.name).ToList();
+        mostrarDefaultVehicles = false;
+        mostrarAscVehicles = true;
+        mostrarDescVehicles = false;
+    }
+
+    private void MostrarDescVehicles()
+    {
+        DescVehicles = vehicles.OrderByDescending(x => x.name).ToList();
+        mostrarDefaultVehicles = false;
+        mostrarAscVehicles = false;
+        mostrarDescVehicles = true;
     }
 
     public class Vehicles

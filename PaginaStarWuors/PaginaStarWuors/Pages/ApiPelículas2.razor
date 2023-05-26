@@ -14,6 +14,11 @@
         padding: 10px;
     }
 
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+
     .botones {
         display: flex;
         justify-content: center;
@@ -31,10 +36,12 @@
     </div>
     <button class="boton"><a href="Películas">1</a></button>
     <button class="boton"><a href="Películas2">2</a></button>
+    <button class="boton" @onclick="MostrarDefaultFilms">Default</button>
+    <button class="boton" @onclick="MostrarAscFilms">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescFilms">Descendent</button>
 </div>
-
 <div>
-    @if (films != null)
+    @if (mostrarDefaultFilms)
     {
         foreach (var film in searchFilms)
         {
@@ -49,6 +56,42 @@
             </div>
         }
     }
+    else if (mostrarAscFilms)
+    {
+        <div class="container">
+            @foreach (var film in AscFilms)
+            {
+                <div class="films">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 4}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescFilms)
+    {
+        <div class="container">
+            @foreach (var film in DescFilms)
+            {
+                <div class="films">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 4}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No se ha seleccionado ninguna opción de orden.</p>
+    }
 
 </div>
 
@@ -58,6 +101,12 @@
     HttpResponseMessage responseMessage;
     List<Film> searchFilms => films.Where(x => x.title.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Film> films;
+    List<Film> AscFilms;
+    List<Film> DescFilms;
+
+    private bool mostrarDefaultFilms = true;
+    private bool mostrarAscFilms = false;
+    private bool mostrarDescFilms = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -83,6 +132,29 @@
                 films.Add(film);
             }
         }
+    }
+
+    private void MostrarDefaultFilms()
+    {
+        mostrarDefaultFilms = true;
+        mostrarAscFilms = false;
+        mostrarDescFilms = false;
+    }
+
+    private void MostrarAscFilms()
+    {
+        AscFilms = films.OrderBy(x => x.title).ToList();
+        mostrarDefaultFilms = false;
+        mostrarAscFilms = true;
+        mostrarDescFilms = false;
+    }
+
+    private void MostrarDescFilms()
+    {
+        DescFilms = films.OrderByDescending(x => x.title).ToList();
+        mostrarDefaultFilms = false;
+        mostrarAscFilms = false;
+        mostrarDescFilms = true;
     }
 
     public class Film
