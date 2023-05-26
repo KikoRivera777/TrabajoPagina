@@ -61,7 +61,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</a></h3>
+                    <h3><a href="Personaje/@(characters.IndexOf(character) + 11)" @onclick="() => CharacterIndex = characters.IndexOf(character) + 11">Name: @(string.IsNullOrEmpty(character.name) ? "No information available" : character.name)</a></h3>
                 </div>
             }
         </div>
@@ -77,7 +77,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</a></h3>
+                    <h3><a href="Personaje/@(characters.IndexOf(character) + 11)" @onclick="() => CharacterIndex = characters.IndexOf(character) + 11">Name: @(string.IsNullOrEmpty(character.name) ? "No information available" : character.name)</a></h3>
                 </div>
             }
         </div>
@@ -93,7 +93,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(character.name) ? "No information avalible" : character.name)</a></h3>
+                    <h3><a href="Personaje/@(characters.IndexOf(character) + 11)" @onclick="() => CharacterIndex = characters.IndexOf(character) + 11">Name: @(string.IsNullOrEmpty(character.name) ? "No information available" : character.name)</a></h3>
                 </div>
             }
         </div>
@@ -112,6 +112,7 @@
     List<Character> AscCharacters;
     List<Character> DescCharacters;
     List<Character> characters;
+    int CharacterIndex { get; set; }
 
     private bool mostrarDefaultCharacters = true;
     private bool mostrarAscCharacters = false;
@@ -167,6 +168,5 @@
     public class Character
     {
         public string name { get; set; }
-        public string url { get; set; }
     }
 }
