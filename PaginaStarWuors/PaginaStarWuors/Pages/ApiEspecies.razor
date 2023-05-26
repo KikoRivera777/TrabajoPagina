@@ -55,7 +55,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
+                    <h3><a href="Especie/@(species.IndexOf(specie) + 1)" @onclick="() => SpecieIndex = species.IndexOf(specie) + 1">Name: @(string.IsNullOrEmpty(specie.name) ? "No information available" : specie.name)</a></h3>
                 </div>
             }
         </div>
@@ -71,7 +71,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
+                    <h3><a href="Especie/@(species.IndexOf(specie) + 1)" @onclick="() => SpecieIndex = species.IndexOf(specie) + 1">Name: @(string.IsNullOrEmpty(specie.name) ? "No information available" : specie.name)</a></h3>
                 </div>
             }
         </div>
@@ -87,7 +87,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
+                    <h3><a href="Especie/@(species.IndexOf(specie) + 1)" @onclick="() => SpecieIndex = species.IndexOf(specie) + 1">Name: @(string.IsNullOrEmpty(specie.name) ? "No information available" : specie.name)</a></h3>
                 </div>
             }
         </div>
@@ -102,6 +102,7 @@
     List<Species> AscSpecies;
     List<Species> DescSpecies;
     List<Species> species;
+    int SpecieIndex { get; set; }
 
     private bool mostrarDefaultSpecies = true;
     private bool mostrarAscSpecies = false;

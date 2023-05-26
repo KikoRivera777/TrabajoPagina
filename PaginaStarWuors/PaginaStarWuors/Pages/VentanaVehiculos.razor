@@ -1,4 +1,4 @@
-﻿@page "/Vehículo"
+﻿@page "/Vehículo/{VehicleIndex:int}"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -30,7 +30,7 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{VehicleIndex}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -84,6 +84,8 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Vehicles> vehicles;
+    [Parameter]
+    public int VehicleIndex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,7 +94,7 @@
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.dev/api/vehicles/8")
+                RequestUri = new Uri($"https://swapi.dev/api/vehicles/{VehicleIndex}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
