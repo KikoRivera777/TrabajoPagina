@@ -1,4 +1,4 @@
-﻿@page "/Personaje"
+﻿@page "/Personaje/{CharacterIndex:int}"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -30,7 +30,7 @@
             {
                 <div class="characters">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{characters.IndexOf(character) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/characters/{CharacterIndex}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -110,15 +110,18 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Character> characters;
+    [Parameter]
+    public int CharacterIndex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+
         characters = new List<Character>();
 
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri("https://swapi.dev/api/people/1")
+                RequestUri = new Uri($"https://swapi.dev/api/people/{CharacterIndex}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
