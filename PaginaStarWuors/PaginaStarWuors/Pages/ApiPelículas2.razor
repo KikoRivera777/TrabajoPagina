@@ -1,4 +1,4 @@
-﻿@page "/Películas"
+﻿@page "/Películas2"
 
 
 @using System.Net.Http;
@@ -28,6 +28,7 @@
     <button class="boton"><a href="Películas">1</a></button>
     <button class="boton"><a href="Películas2">2</a></button>
 </div>
+
 <div>
     @if (films != null)
     {
@@ -35,12 +36,12 @@
         {
             <div class="films">
                 @{
-                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg";
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 4}.jpg";
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
                 <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
-                
+
             </div>
         }
     }
@@ -57,7 +58,7 @@
     {
         films = new List<Film>();
 
-        for (int i = 1; i <= 3; i++)
+        for (int i = 4; i <= 6; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
@@ -86,5 +87,5 @@
 
     }
 
-   
+
 }
