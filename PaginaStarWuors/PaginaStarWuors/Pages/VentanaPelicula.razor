@@ -1,0 +1,236 @@
+﻿@page "/Película"
+
+
+@using System.Net.Http;
+@using System.Text.Json;
+@using System.Collections.Generic;
+@inject HttpClient httpClient
+
+<style>
+    .films {
+        margin-top: 50px;
+        border: 5px solid white;
+        padding: 10px;
+    }
+</style>
+
+<h2>Film description</h2>
+
+<div>
+    @if (films != null)
+    {
+        foreach (var film in films)
+        {
+            <div class="films">
+                @{
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg";
+                    var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                }
+                <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                <h3>Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</h3>
+                <h3>Episode: @film.episode_id</h3>
+                <h3>Opening crawl: @(string.IsNullOrEmpty(film.opening_crawl) ? "No information avalible" : film.opening_crawl)</h3>
+                <h3>Director: @(string.IsNullOrEmpty(film.director) ? "No information avalible" : film.director)</h3>
+                <h3>Producer: @(string.IsNullOrEmpty(film.producer) ? "No information avalible" : film.producer)</h3>
+                <h3>Release date: @(string.IsNullOrEmpty(film.release_date) ? "No information avalible" : film.release_date)</h3>
+                <h3>Characters:</h3>
+                <ul>
+                    @if (film.charactersNames == null || film.charactersNames.Count == 0)
+                    {
+                        <li>No information available</li>
+                    }
+                    else
+                    {
+                        @foreach (var characterName in film.charactersNames)
+                        {
+                            <li>@characterName</li>
+                        }
+                    }
+                </ul>
+                <h3>Planets:</h3>
+                @if (film.planetsNames == null || film.planetsNames.Count == 0)
+                {
+                    <li>No information available</li>
+                }
+                else
+                {
+                    @foreach (var planetName in film.planetsNames)
+                    {
+                        <li>@planetName</li>
+                    }
+                }
+                <h3>Starships:</h3>
+                @if (film.starshipNames == null || film.starshipNames.Count == 0)
+                {
+                    <li>No information available</li>
+                }
+                else
+                {
+                    @foreach (var starshipName in film.starshipNames)
+                    {
+                        <li>@starshipName</li>
+                    }
+                }
+                <h3>Vehicles:</h3>
+                @if (film.vehicleNames == null || film.vehicleNames.Count == 0)
+                {
+                    <li>No information available</li>
+                }
+                else
+                {
+                    @foreach (var vehicleName in film.vehicleNames)
+                    {
+                        <li>@vehicleName</li>
+                    }
+                }
+                <h3>Species:</h3>
+                @if (film.speciesNames == null || film.speciesNames.Count == 0)
+                {
+                    <li>No information available</li>
+                }
+                else
+                {
+                    @foreach (var specieName in film.speciesNames)
+                    {
+                        <li>@specieName</li>
+                    }
+                }
+            </div>
+        }
+    }
+
+</div>
+
+@code {
+    string searchstring;
+    HttpRequestMessage requestMessage;
+    HttpResponseMessage responseMessage;
+    List<Film> films;
+
+    protected override async Task OnInitializedAsync()
+    {
+        films = new List<Film>();
+
+        
+            requestMessage = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri("https://swapi.dev/api/films/1")
+                };
+
+            responseMessage = await httpClient.SendAsync(requestMessage);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseString = await responseMessage.Content.ReadAsStringAsync();
+                var film = JsonSerializer.Deserialize<Film>(responseString);
+
+                //Personajes:
+                film.charactersNames = new List<string>();
+                foreach (var charactersUrl in film.characters)
+                {
+                    var characterResponse = await httpClient.GetAsync(charactersUrl);
+                    if (characterResponse.IsSuccessStatusCode)
+                    {
+                        var characterResponseString = await characterResponse.Content.ReadAsStringAsync();
+                        var character = JsonSerializer.Deserialize<Character>(characterResponseString);
+                        film.charactersNames.Add(character.name);
+                    }
+                }
+
+                //Planetas:
+                film.planetsNames = new List<string>();
+                foreach (var planetsUrl in film.planets)
+                {
+                    var planetResponse = await httpClient.GetAsync(planetsUrl);
+                    if (planetResponse.IsSuccessStatusCode)
+                    {
+                        var planetsResponseString = await planetResponse.Content.ReadAsStringAsync();
+                        var planets = JsonSerializer.Deserialize<Planet>(planetsResponseString);
+                        film.planetsNames.Add(planets.name);
+                    }
+                }
+                //Naves:
+                film.starshipNames = new List<string>();
+                foreach (var starshipsUrl in film.starships)
+                {
+                    var starshipResponse = await httpClient.GetAsync(starshipsUrl);
+                    if (starshipResponse.IsSuccessStatusCode)
+                    {
+                        var starshipsResponseString = await starshipResponse.Content.ReadAsStringAsync();
+                        var starships = JsonSerializer.Deserialize<Starhip>(starshipsResponseString);
+                        film.starshipNames.Add(starships.name);
+                    }
+                }
+                //Vehiculos:
+                film.vehicleNames = new List<string>();
+                foreach (var vehiclesUrl in film.vehicles)
+                {
+                    var vehicleResponse = await httpClient.GetAsync(vehiclesUrl);
+                    if (vehicleResponse.IsSuccessStatusCode)
+                    {
+                        var vehiclesResponseString = await vehicleResponse.Content.ReadAsStringAsync();
+                        var vehicles = JsonSerializer.Deserialize<Vehicle>(vehiclesResponseString);
+                        film.vehicleNames.Add(vehicles.name);
+                    }
+                }
+                //Especies:
+                film.speciesNames = new List<string>();
+                foreach (var speciesUrl in film.species)
+                {
+                    var specieResponse = await httpClient.GetAsync(speciesUrl);
+                    if (specieResponse.IsSuccessStatusCode)
+                    {
+                        var speciesResponseString = await specieResponse.Content.ReadAsStringAsync();
+                        var species = JsonSerializer.Deserialize<Specie>(speciesResponseString);
+                        film.speciesNames.Add(species.name);
+                    }
+                }
+
+                films.Add(film);
+            }
+        
+    }
+
+    public class Film
+    {
+        public string title { get; set; }
+        public int episode_id { get; set; }
+        public string opening_crawl { get; set; }
+        public string director { get; set; }
+        public string producer { get; set; }
+        public string release_date { get; set; }
+        public List<string> characters { get; set; }
+        public List<string> charactersNames { get; set; }
+        public List<string> planets { get; set; }
+        public List<string> planetsNames { get; set; }
+        public List<string> starships { get; set; }
+        public List<string> starshipNames { get; set; }
+        public List<string> vehicles { get; set; }
+        public List<string> vehicleNames { get; set; }
+        public List<string> species { get; set; }
+        public List<string> speciesNames { get; set; }
+    }
+
+    public class Character
+    {
+        public string name { get; set; }
+    }
+
+    public class Planet
+    {
+        public string name { get; set; }
+    }
+    public class Starhip
+    {
+        public string name { get; set; }
+    }
+    public class Vehicle
+    {
+        public string name { get; set; }
+    }
+    public class Specie
+    {
+        public string name { get; set; }
+    }
+}
