@@ -18,10 +18,26 @@
         display: grid;
         grid-template-columns: auto auto;
     }
+
+    .botones {
+        display: flex;
+        justify-content: center;
+    }
+
+    .boton {
+        margin: 0 5px;
+    }
 </style>
 
 <h2>Starships</h2>
 
+<div class="botones">
+    <button class="boton"><a href="Naves">1</a></button>
+    <button class="boton"><a href="Naves2">2</a></button>
+    <button class="boton"><a href="Naves3">3</a></button>
+    <button class="boton"><a href="Naves4">4</a></button>
+
+</div>
 <div>
     @if (starships != null)
     {

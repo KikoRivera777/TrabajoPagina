@@ -1,4 +1,4 @@
-﻿@page "/Naves2"
+﻿@page "/Naves3"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -46,7 +46,7 @@
             {
                 <div class="starships">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 24}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 41}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -67,7 +67,7 @@
     {
         starships = new List<Starship>();
 
-        for (int i = 21; i <= 40; i++)
+        for (int i = 41; i <= 63; i++)
         {
             requestMessage = new HttpRequestMessage
                 {
