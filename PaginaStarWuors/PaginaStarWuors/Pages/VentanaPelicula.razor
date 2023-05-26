@@ -1,4 +1,4 @@
-﻿@page "/Película"
+﻿@page "/Película/{FilmsIndex:int}"
 
 
 @using System.Net.Http;
@@ -23,7 +23,7 @@
         {
             <div class="films">
                 @{
-                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{films.IndexOf(film) + 1}.jpg";
+                    var imageUrl = $"https://starwars-visualguide.com/assets/img/films/{FilmsIndex}.jpg";
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -106,6 +106,8 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Film> films;
+    [Parameter]
+    public int FilmsIndex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,7 +117,7 @@
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri("https://swapi.dev/api/films/1")
+                    RequestUri = new Uri($"https://swapi.dev/api/films/{FilmsIndex}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);

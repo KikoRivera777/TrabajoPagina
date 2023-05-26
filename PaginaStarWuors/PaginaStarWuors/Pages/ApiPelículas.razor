@@ -51,7 +51,7 @@
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
+                <h3><a href="Película/@(films.IndexOf(film) + 1)" @onclick="() => FilmsIndex = films.IndexOf(film) + 1">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
                 
             </div>
         }
@@ -67,7 +67,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
+                    <h3><a href="Película/@(films.IndexOf(film) + 1)" @onclick="() => FilmsIndex = films.IndexOf(film) + 1">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
                 </div>
             }
         </div>
@@ -83,7 +83,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Película">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
+                    <h3><a href="Película/@(films.IndexOf(film) + 1)" @onclick="() => FilmsIndex = films.IndexOf(film) + 1">Title: @(string.IsNullOrEmpty(film.title) ? "No information avalible" : film.title)</a></h3>
                 </div>
             }
         </div>
@@ -103,6 +103,7 @@
     List<Film> films;
     List<Film> AscFilms;
     List<Film> DescFilms;
+    int FilmsIndex { get; set; }
 
     private bool mostrarDefaultFilms = true;
     private bool mostrarAscFilms = false;

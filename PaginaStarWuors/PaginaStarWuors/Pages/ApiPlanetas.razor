@@ -58,7 +58,7 @@
                     var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                 }
                 <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Planeta">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
+                    <h3><a href="Planeta/@(planets.IndexOf(planet) + 1)" @onclick="() => PlanetsIndex = planets.IndexOf(planet) + 1">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
                     
             </div>
             }
@@ -75,7 +75,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Planeta">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
+                    <h3><a href="Planeta/@(planets.IndexOf(planet) + 1)" @onclick="() => PlanetsIndex = planets.IndexOf(planet) + 1">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
 
                 </div>
             }
@@ -92,7 +92,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Planeta">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
+                    <h3><a href="Planeta/@(planets.IndexOf(planet) + 1)" @onclick="() => PlanetsIndex = planets.IndexOf(planet) + 1">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
 
                 </div>
             }
@@ -112,6 +112,7 @@
     List<Planets> planets;
     List<Planets> AscPlanets;
     List<Planets> DescPlanets;
+    int PlanetsIndex { get; set; }
 
     private bool mostrarDefaultPlanets = true;
     private bool mostrarAscPlanets = false;

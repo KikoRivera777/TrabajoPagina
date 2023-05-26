@@ -1,4 +1,4 @@
-﻿@page "/Planeta"
+﻿@page "/Planeta/{PlanetsIndex:int}"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -30,7 +30,7 @@
             {
                 <div class="planets">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/planets/{planets.IndexOf(planet) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/planets/{PlanetsIndex}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -82,6 +82,8 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Planets> planets;
+    [Parameter]
+    public int PlanetsIndex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -91,7 +93,7 @@
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri($"https://swapi.dev/api/planets/1")
+                RequestUri = new Uri($"https://swapi.dev/api/planets/{PlanetsIndex}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);
