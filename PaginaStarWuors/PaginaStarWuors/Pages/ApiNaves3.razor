@@ -3,6 +3,7 @@
 @using System.Net.Http;
 @using System.Text.Json;
 @using System.Collections.Generic;
+@using System.Linq;
 @inject HttpClient httpClient
 
 <style>
@@ -36,10 +37,13 @@
     <button class="boton"><a href="Naves2">2</a></button>
     <button class="boton"><a href="Naves3">3</a></button>
     <button class="boton"><a href="Naves4">4</a></button>
-
+    <button class="boton" @onclick="MostrarDefaultStarships">Default</button>
+    <button class="boton" @onclick="MostrarAscStarships">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescStarships">Descendent</button>
 </div>
+
 <div>
-    @if (starships != null)
+    @if (mostrarDefaultStarships)
     {
         <div class="container">
             @foreach (var starship in starships)
@@ -50,10 +54,46 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information avalible" : starship.name)</a></h3>
+                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
                 </div>
             }
         </div>
+    }
+    else if (mostrarAscStarships)
+    {
+        <div class="container">
+            @foreach (var starship in AscStarships)
+            {
+                <div class="starships">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 41}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescStarships)
+    {
+        <div class="container">
+            @foreach (var starship in DescStarships)
+            {
+                <div class="starships">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 41}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No se ha seleccionado ninguna opción de orden.</p>
     }
 </div>
 
@@ -61,7 +101,13 @@
     string searchstring;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Starship> AscStarships;
+    List<Starship> DescStarships;
     List<Starship> starships;
+
+    private bool mostrarDefaultStarships = true;
+    private bool mostrarAscStarships = false;
+    private bool mostrarDescStarships = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +131,31 @@
                 starships.Add(starship);
             }
         }
+    }
+
+    private void MostrarDefaultStarships()
+    {
+        mostrarDefaultStarships = true;
+        mostrarAscStarships = false;
+        mostrarDescStarships = false;
+    }
+
+    private void MostrarAscStarships()
+    {
+        AscStarships = starships.OrderBy(x => x.name).ToList();
+        DescStarships = starships.OrderByDescending(x => x.name).ToList();
+        mostrarDefaultStarships = false;
+        mostrarAscStarships = true;
+        mostrarDescStarships = false;
+    }
+
+    private void MostrarDescStarships()
+    {
+        DescStarships = starships.OrderByDescending(x => x.name).ToList();
+        AscStarships = starships.OrderBy(x => x.name).ToList();
+        mostrarDefaultStarships = false;
+        mostrarAscStarships = false;
+        mostrarDescStarships = true;
     }
 
     public class Starship
