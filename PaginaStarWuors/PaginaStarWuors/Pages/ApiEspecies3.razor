@@ -32,6 +32,9 @@
 <h2>Species</h2>
 
 <div class="botones">
+    <div class="buscador">
+        <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
+    </div>
     <button class="boton"><a href="Especies">1</a></button>
     <button class="boton"><a href="Especies2">2</a></button>
     <button class="boton"><a href="Especies3">3</a></button>
@@ -41,7 +44,7 @@
     @if (species != null)
     {
         <div class="container">
-            @foreach (var specie in species)
+            @foreach (var specie in searchSpecies)
             {
                 <div class="species">
                     @{
@@ -61,9 +64,10 @@
 </div>
 
 @code {
-    string searchstring;
+    string searchstring = string.Empty;
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
+    List<Species> searchSpecies => species.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Species> species;
 
     protected override async Task OnInitializedAsync()
