@@ -2,8 +2,8 @@
 
 @using System.Net.Http;
 @using System.Text.Json;
-@using System.Linq;
 @using System.Collections.Generic;
+@using System.Linq;
 @inject HttpClient httpClient
 
 <style>
@@ -41,10 +41,13 @@
     <button class="boton"><a href="Planetas4">4</a></button>
     <button class="boton"><a href="Planetas5">5</a></button>
     <button class="boton"><a href="Planetas6">6</a></button>
+    <button class="boton" @onclick="MostrarDefaultPlanets">Default</button>
+    <button class="boton" @onclick="MostrarAscPlanets">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescPlanets">Descendent</button>
 </div>
 
 <div>
-    @if (planets != null)
+    @if (mostrarDefaultPlanets)
     {
         <div class="container">
             @foreach (var planet in searchPlanets)
@@ -61,6 +64,44 @@
             }
         </div>
     }
+    else if (mostrarAscPlanets)
+    {
+        <div class="container">
+            @foreach (var planet in AscPlanets)
+            {
+                <div class="planets">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/planets/{planets.IndexOf(planet) + 41}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Planeta">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
+
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescPlanets)
+    {
+        <div class="container">
+            @foreach (var planet in DescPlanets)
+            {
+                <div class="planets">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/planets/{planets.IndexOf(planet) + 41}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Planeta">Name: @(string.IsNullOrEmpty(planet.name) ? "No information avalible" : planet.name)</a></h3>
+
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No se ha seleccionado ninguna opción de orden.</p>
+    }
 </div>
 
 @code {
@@ -69,6 +110,12 @@
     HttpResponseMessage responseMessage;
     List<Planets> searchPlanets => planets.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
     List<Planets> planets;
+    List<Planets> AscPlanets;
+    List<Planets> DescPlanets;
+
+    private bool mostrarDefaultPlanets = true;
+    private bool mostrarAscPlanets = false;
+    private bool mostrarDescPlanets = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -98,6 +145,29 @@
     {
         public string name { get; set; }
         public string Url { get; set; }
+    }
+
+    private void MostrarDefaultPlanets()
+    {
+        mostrarDefaultPlanets = true;
+        mostrarAscPlanets = false;
+        mostrarDescPlanets = false;
+    }
+
+    private void MostrarAscPlanets()
+    {
+        AscPlanets = planets.OrderBy(x => x.name).ToList();
+        mostrarDefaultPlanets = false;
+        mostrarAscPlanets = true;
+        mostrarDescPlanets = false;
+    }
+
+    private void MostrarDescPlanets()
+    {
+        DescPlanets = planets.OrderByDescending(x => x.name).ToList();
+        mostrarDefaultPlanets = false;
+        mostrarAscPlanets = false;
+        mostrarDescPlanets = true;
     }
 
 }
