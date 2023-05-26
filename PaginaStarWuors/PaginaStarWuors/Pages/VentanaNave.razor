@@ -1,4 +1,4 @@
-﻿@page "/Nave"
+﻿@page "/Nave/{StarshipIndex:int}"
 
 @using System.Net.Http;
 @using System.Text.Json;
@@ -30,7 +30,7 @@
             {
                 <div class="starships">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 1}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{StarshipIndex}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
@@ -86,6 +86,8 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Starship> starships;
+    [Parameter]
+    public int StarshipIndex { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,7 +96,7 @@
             requestMessage = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
-                    RequestUri = new Uri("https://swapi.dev/api/starships/2")
+                    RequestUri = new Uri($"https://swapi.dev/api/starships/{StarshipIndex}")
                 };
 
             responseMessage = await httpClient.SendAsync(requestMessage);

@@ -57,7 +57,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
+                    <h3><a href="Nave/@(starships.IndexOf(starship) + 64)" @onclick="() => StarshipIndex = starships.IndexOf(starship) + 64">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
                 </div>
             }
         </div>
@@ -73,7 +73,7 @@
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
+                    <h3><a href="Nave/@(starships.IndexOf(starship) + 64)" @onclick="() => StarshipIndex = starships.IndexOf(starship) + 64">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
                 </div>
             }
         </div>
@@ -88,8 +88,7 @@
                         var imageUrl = $"https://starwars-visualguide.com/assets/img/starships/{starships.IndexOf(starship) + 64}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Nave">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
+                    <h3><a href="Nave/@(starships.IndexOf(starship) + 64)" @onclick="() => StarshipIndex = starships.IndexOf(starship) + 64">Name: @(string.IsNullOrEmpty(starship.name) ? "No information available" : starship.name)</a></h3>
                 </div>
             }
         </div>
@@ -108,6 +107,7 @@
     List<Starship> AscStarships;
     List<Starship> DescStarships;
     List<Starship> starships;
+    int StarshipIndex { get; set; }
 
     private bool mostrarDefaultStarships = true;
     private bool mostrarAscStarships = false;
