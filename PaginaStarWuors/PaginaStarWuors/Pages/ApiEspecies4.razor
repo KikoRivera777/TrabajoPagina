@@ -39,26 +39,57 @@
     <button class="boton"><a href="Especies2">2</a></button>
     <button class="boton"><a href="Especies3">3</a></button>
     <button class="boton"><a href="Especies4">4</a></button>
+    <button class="boton" @onclick="MostrarDefaultSpecies">Default</button>
+    <button class="boton" @onclick="MostrarAscSpecies">Ascendent</button>
+    <button class="boton" @onclick="MostrarDescSpecies">Descendent</button>
 </div>
 <div>
-    @if (species != null)
+    @if (mostrarDefaultSpecies)
     {
         <div class="container">
             @foreach (var specie in searchSpecies)
             {
                 <div class="species">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 31}.jpg";
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 1}.jpg";
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3>Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</h3>
-                    <h3><a href="Especie">@specie.url</a></h3>
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
                 </div>
             }
-
-            <div>
-            </div>
+        </div>
+    }
+    else if (mostrarAscSpecies)
+    {
+        <div class="species">
+            @foreach (var specie in AscSpecies)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
+                </div>
+            }
+        </div>
+    }
+    else if (mostrarDescSpecies)
+    {
+        <div class="species">
+            @foreach (var specie in DescSpecies)
+            {
+                <div class="characters">
+                    @{
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/species/{species.IndexOf(specie) + 1}.jpg";
+                        var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
+                    }
+                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                    <h3><a href="Personaje">Name: @(string.IsNullOrEmpty(specie.name) ? "No information avalible" : specie.name)</a></h3>
+                </div>
+            }
         </div>
     }
 </div>
@@ -68,7 +99,13 @@
     HttpRequestMessage requestMessage;
     HttpResponseMessage responseMessage;
     List<Species> searchSpecies => species.Where(x => x.name.ToUpper().Contains(searchstring.ToUpper())).ToList();
+    List<Species> AscSpecies;
+    List<Species> DescSpecies;
     List<Species> species;
+
+    private bool mostrarDefaultSpecies = true;
+    private bool mostrarAscSpecies = false;
+    private bool mostrarDescSpecies = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,6 +129,29 @@
                 species.Add(specie);
             }
         }
+    }
+
+    private void MostrarDefaultSpecies()
+    {
+        mostrarDefaultSpecies = true;
+        mostrarAscSpecies = false;
+        mostrarDescSpecies = false;
+    }
+
+    private void MostrarAscSpecies()
+    {
+        AscSpecies = species.OrderBy(x => x.name).ToList();
+        mostrarDefaultSpecies = false;
+        mostrarAscSpecies = true;
+        mostrarDescSpecies = false;
+    }
+
+    private void MostrarDescSpecies()
+    {
+        DescSpecies = species.OrderByDescending(x => x.name).ToList();
+        mostrarDefaultSpecies = false;
+        mostrarAscSpecies = false;
+        mostrarDescSpecies = true;
     }
 
     public class Species
