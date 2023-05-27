@@ -1,72 +1,68 @@
-﻿<div class="top-row ps-3 navbar navbar-dark" style="background-color: black !important">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Star Wars Wiki</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+﻿@inject IJSRuntime JSRuntime
+<head>
+    <link rel="stylesheet" href="/css/star.css">
+    <link rel="stylesheet" href="~/css/star.css.map">
+
+</head>
+<div id="container">
+    <div id="burger">
+        <div class="bun top"></div>
+        <div class="filling"></div>
+        <div class="bun bottom"></div>
     </div>
 </div>
 
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu" style="background-color: black !important">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Personajes">
-                <span class="oi oi-people" aria-hidden="true"></span> Characters
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Películas">
-                <span class="oi oi-video" aria-hidden="true"></span> Films
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Naves">
-                <span class="oi oi-location" aria-hidden="true"></span> Starships
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Vehículos">
-                <span class="oi oi-aperture" aria-hidden="true"></span> Vehicles
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Especies">
-                <span class="oi oi-eye" aria-hidden="true"></span> Species
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Planetas">
-                <span class="oi oi-globe" aria-hidden="true"></span> Planets
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Trailers">
-                <span class="oi oi-camera-slr" aria-hidden="true"></span> Trailers
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Most_like_characters">
-                <span class="oi oi-align-left" aria-hidden="true"></span> Graphic
-            </NavLink>
-        </div>
-    
-    </nav>
-</div>
+<nav>
+    <ul>
+        <li class="red">
+            <a class="links" href="">Home</a>
+        </li>
+        <li>
+            <a class="links" href="Personajes">Characters</a>
+        </li>
+        <li class="green">
+            <a class="links" href="Películas">Films</a>
+        </li>
+        <li class="red">
+            <a class="links" href="Especies">Species</a>
+        </li>
+        <li class="yellow">
+            <a class="links" href="Vehículos">Vehicles</a>
+        </li>
+        <li class="purple">
+            <a class="links" href="Planetas">Planets</a>
+        </li>
+        <li>
+            <a class="links" href="Naves">Starships</a>
+        </li>
+        <li class="green">
+            <a class="links" href="Trailers">Trailers</a>
+        </li>
+        <li class="yellow">
+            <a class="links" href="Most_like_characters">Graphic</a>
+        </li>
+    </ul>
+</nav>
+<div class="fade"></div>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
+    private async Task InitializeJavaScript()
     {
-        collapseNavMenu = !collapseNavMenu;
+        await JSRuntime.InvokeVoidAsync("eval", @"
+            const nav = document.querySelector('nav');
+            document.querySelector('#burger').addEventListener('click',(e) => {
+                e.currentTarget.classList.toggle('active');
+                nav.classList.toggle('show');
+            });
+        ");
     }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await InitializeJavaScript();
+        }
+    }
+
+
 }
