@@ -53,17 +53,70 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 4}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "T-16 skyhopper")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/6.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/6">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "X-34 landspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/7.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/7">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/LN starfighter")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/8.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/8">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Snowspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/14.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/14">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE bomber")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/16.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/16">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-AT")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/18.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/18">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-ST")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/19.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/19">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Storm IV Twin-Pod cloud car")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/20.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/20">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sail barge")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/24.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/24">@vehicle.name</a></h3>
+                    }
+                    else
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/4.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    }
                 </div>
-
-                @if (vehicle.name == "T-16 skyhopper")
-                {
-                    VehicleIndex = 6;
-                }
             }
         </div>
     }
@@ -74,11 +127,69 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 4}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "T-16 skyhopper")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/6.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/6">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "X-34 landspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/7.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/7">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/LN starfighter")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/8.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/8">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Snowspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/14.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/14">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE bomber")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/16.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/16">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-AT")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/18.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/18">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-ST")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/19.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/19">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Storm IV Twin-Pod cloud car")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/20.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/20">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sail barge")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/24.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/24">@vehicle.name</a></h3>
+                    }
+                    else
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/4.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    }
                 </div>
             }
         </div>
@@ -90,11 +201,69 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 4}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "T-16 skyhopper")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/6.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/6">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "X-34 landspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/7.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/7">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/LN starfighter")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/8.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/8">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Snowspeeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/14.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/14">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE bomber")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/16.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/16">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-AT")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/18.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/18">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "AT-ST")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/19.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/19">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Storm IV Twin-Pod cloud car")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/20.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/20">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sail barge")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/24.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/24">@vehicle.name</a></h3>
+                    }
+                    else
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/4.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    }
                 </div>
             }
         </div>

@@ -51,11 +51,69 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "Bantha-II cargo skiff")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/25.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/25">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/IN interceptor")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/26.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/26">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Imperial Speeder Bike")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/30.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/30">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Vulture Droid")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/33.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/33">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Multi-Troop Transport")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/34.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/34">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Armored Assault Tank")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/35.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/35">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Single Trooper Aerial Platform")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/36.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/36">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "C-9979 landing craft")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/37.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/37">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Tribubble bongo")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/38.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/38">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sith speeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/42.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/42">@vehicle.name</a></h3>
+                    }
                 </div>
             }
         </div>
@@ -67,11 +125,69 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "Bantha-II cargo skiff")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/25.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/25">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/IN interceptor")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/26.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/26">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Imperial Speeder Bike")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/30.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/30">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Vulture Droid")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/33.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/33">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Multi-Troop Transport")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/34.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/34">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Armored Assault Tank")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/35.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/35">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Single Trooper Aerial Platform")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/36.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/36">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "C-9979 landing craft")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/37.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/37">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Tribubble bongo")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/38.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/38">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sith speeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/42.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/42">@vehicle.name</a></h3>
+                    }
                 </div>
             }
         </div>
@@ -83,11 +199,69 @@
             {
                 <div class="vehicles">
                     @{
-                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/{vehicles.IndexOf(vehicle) + 25}.jpg";
+
                         var errorImageUrl = "https://www.rosemacsales.com/assets/images/no_image.png";
                     }
-                    <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
-                    <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 25)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 25">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
+                    @if (vehicle.name == "Bantha-II cargo skiff")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/25.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/25">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "TIE/IN interceptor")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/26.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/26">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Imperial Speeder Bike")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/30.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/30">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Vulture Droid")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/33.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/33">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Multi-Troop Transport")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/34.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/34">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Armored Assault Tank")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/35.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/35">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Single Trooper Aerial Platform")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/36.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/36">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "C-9979 landing craft")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/37.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/37">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Tribubble bongo")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/38.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/38">@vehicle.name</a></h3>
+                    }
+                    else if (vehicle.name == "Sith speeder")
+                    {
+                        var imageUrl = $"https://starwars-visualguide.com/assets/img/vehicles/42.jpg";
+                        <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
+                        <h3><a href="Vehículo/42">@vehicle.name</a></h3>
+                    }
                 </div>
             }
         </div>
