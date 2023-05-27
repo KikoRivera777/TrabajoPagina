@@ -12,24 +12,26 @@ html, body {
   src: url("starwarsfont.ttf");
 }
 
-.logo h1{
-  font-family: "starwars";
-  font-size: 3em;
-  color: white;
-  display: flex;
-  bottom: 100px;
-  justify-content: center;
-  align-items: center;
+.logo h1 {
+    font-family: "starwars";
+    font-size: 180px;
+    color: white;
+    display: flex;
+    bottom: 100px;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    text-shadow: -1px 0 yellow, 0 1px yellow, 1px 0 yellow, 0 -1px yellow;
 }
 .logo p{
   font-family: "starwars";
-  font-size: 3em;
+  font-size:2em;
   color: white;
   text-align: center;
 }
 .logo h3{
   font-family: "starwars";
-  font-size: 3em;
+  font-size: 2em;
   color: white;
   text-align: center;
   display: block;
