@@ -15,6 +15,16 @@
         padding: 10px;
     }
 
+    .planets:hover {
+        border-color: yellow;
+        box-shadow: 2px 3px 26px 0px yellow;
+        color: yellow;
+    }
+
+    .planets:hover a {
+            color: yellow;
+    }
+
     .container {
         display: grid;
         grid-template-columns: auto auto;
@@ -28,6 +38,27 @@
     .boton {
         margin: 0 5px;
     }
+
+    .boton:hover {
+            background-color: yellow;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    a:hover {
+            color: yellow;
+    }
+
+    .textoBoton {
+        color: black;
+    }
+
+    .textoBoton:hover {
+            color: black;
+    }
 </style>
 
 <h2>Planets</h2>
@@ -35,12 +66,12 @@
     <div class="buscador">
         <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
     </div>
-    <button class="boton"><a href="Planetas">1</a></button>
-    <button class="boton"><a href="Planetas2">2</a></button>
-    <button class="boton"><a href="Planetas3">3</a></button>
-    <button class="boton"><a href="Planetas4">4</a></button>
-    <button class="boton"><a href="Planetas5">5</a></button>
-    <button class="boton"><a href="Planetas6">6</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas">1</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas2">2</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas3">3</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas4">4</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas5">5</a></button>
+    <button class="boton"><a class="textoBoton" href="Planetas6">6</a></button>
     <button class="boton" @onclick="MostrarDefaultPlanets">Default</button>
     <button class="boton" @onclick="MostrarAscPlanets">Ascendent</button>
     <button class="boton" @onclick="MostrarDescPlanets">Descendent</button>
