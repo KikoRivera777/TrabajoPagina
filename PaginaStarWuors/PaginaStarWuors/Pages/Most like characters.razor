@@ -1,0 +1,58 @@
+﻿@page "/Most_like_characters"
+
+@using ChartJs.Blazor.BarChart;
+
+<h2>Most like characters</h2>
+
+<Chart Config="_barconfig"></Chart>
+
+@code{
+    private BarConfig _barconfig;
+
+    protected override void OnInitialized()
+    {
+        ConfigueBarConfig();
+    }
+
+    private void ConfigueBarConfig()
+    {
+        _barconfig = new BarConfig();
+
+        _barconfig.Options = new BarOptions
+        {
+            Responsive = true,
+            Title = new OptionsTitle
+            {
+                Display = true,
+                Text = "Most like characters in %",
+                FontColor = "#FFFFFF"
+            }
+        };
+
+        foreach ( var character in new[] { "Darth Vader","Obi-Wan Kenovi","Luke Skywalker","Han Solo","Yoda","Darth Maul","Leia Organa","R2-D2","Emperor Palpatine","Chewbacca"})
+        {
+            _barconfig.Data.Labels.Add(character);
+        }
+
+        var dataset = new BarDataset<double>(new[] { 86.9, 81.1, 76.2, 74.2, 73.4, 59.8, 57.6, 56.5, 55.5, 55.1 })
+        {
+            Label = "Win Porcentage ",
+
+            BackgroundColor = new[]
+            {
+                ColorUtil.ColorHexString(255,0,0),
+                ColorUtil.ColorHexString(0,0,255),
+                ColorUtil.ColorHexString(0,255,0),
+                ColorUtil.ColorHexString(0,0,255),
+                ColorUtil.ColorHexString(0,255,0),
+                ColorUtil.ColorHexString(255,0,0),
+                ColorUtil.ColorHexString(0,0,255),
+                ColorUtil.ColorHexString(0,0,255),
+                ColorUtil.ColorHexString(255,0,0),
+                ColorUtil.ColorHexString(0,0,255)
+            }
+        };
+
+        _barconfig.Data.Datasets.Add(dataset);
+    }
+}
