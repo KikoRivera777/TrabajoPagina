@@ -59,6 +59,11 @@
                     <img src="@imageUrl" onerror="this.src='@errorImageUrl'" />
                     <h3><a href="Vehículo/@(vehicles.IndexOf(vehicle) + 4)" @onclick="() => VehicleIndex = vehicles.IndexOf(vehicle) + 4">Name: @(string.IsNullOrEmpty(vehicle.name) ? "No information available" : vehicle.name)</a></h3>
                 </div>
+
+                @if (vehicle.name == "T-16 skyhopper")
+                {
+                    VehicleIndex = 6;
+                }
             }
         </div>
     }
