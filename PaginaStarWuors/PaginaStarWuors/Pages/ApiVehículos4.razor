@@ -13,7 +13,18 @@
         margin-left: 10px;
         text-align: center;
         padding: 10px;
+        border-radius: 10px;
     }
+
+        .vehicles:hover {
+            border-color: yellow;
+            box-shadow: 2px 3px 26px 0px yellow;
+            color: yellow;
+        }
+
+            .vehicles:hover a {
+                color: yellow;
+            }
 
     .container {
         display: grid;
@@ -28,6 +39,27 @@
     .boton {
         margin: 0 5px;
     }
+
+        .boton:hover {
+            background-color: yellow;
+        }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+        a:hover {
+            color: yellow;
+        }
+
+    .textoBoton {
+        color: black;
+    }
+
+        .textoBoton:hover {
+            color: black;
+        }
 </style>
 
 <h2>Vehicles</h2>
@@ -36,10 +68,10 @@
     <div class="buscador">
         <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
     </div>
-    <button class="boton"><a href="Vehículos">1</a></button>
-    <button class="boton"><a href="Vehículos2">2</a></button>
-    <button class="boton"><a href="Vehículos3">3</a></button>
-    <button class="boton"><a href="Vehículos4">4</a></button>
+    <button class="boton"><a class="textoBoton"  href="Vehículos">1</a></button>
+    <button class="boton"><a class="textoBoton" href="Vehículos2">2</a></button>
+    <button class="boton"><a class="textoBoton" href="Vehículos3">3</a></button>
+    <button class="boton"><a class="textoBoton" href="Vehículos4">4</a></button>
     <button class="boton" @onclick="MostrarDefaultVehicles">Default</button>
     <button class="boton" @onclick="MostrarAscVehicles">Ascendent</button>
     <button class="boton" @onclick="MostrarDescVehicles">Descendent</button>
