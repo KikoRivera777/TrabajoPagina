@@ -12,15 +12,25 @@
         margin-left: 10px;
         text-align: center;
         padding: 10px;
+        box-shadow: 2px 3px 26px 0px white;
+        color: white;
+        border-radius: 10px;
+    }
+
+    img {
+        box-shadow: 2px 3px 26px 0px white;
     }
 
     .container {
         display: grid;
         grid-template-columns: auto auto;
     }
-</style>
 
-<h2>Vehicles description</h2>
+    li{
+        font-size: 20px;
+        list-style: none;
+    }
+</style>
 
 <div>
     @if (vehicles != null)
