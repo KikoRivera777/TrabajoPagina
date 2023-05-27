@@ -14,7 +14,7 @@ html, body {
 
 .logo h1{
   font-family: "starwars";
-  font-size: 17em;
+  font-size: 3em;
   color: white;
   display: flex;
   bottom: 100px;
