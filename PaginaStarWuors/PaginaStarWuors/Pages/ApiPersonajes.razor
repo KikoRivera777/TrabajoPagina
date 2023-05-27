@@ -13,7 +13,18 @@
         margin-left: 10px;
         text-align: center;
         padding: 10px;
+        border-radius: 10px;
     }
+
+        .characters:hover {
+            border-color: yellow;
+            box-shadow: 2px 3px 26px 0px yellow;
+            color: yellow;
+        }
+
+            .characters:hover a {
+                color: yellow;
+            }
 
     .container {
         display: grid;
@@ -28,6 +39,27 @@
     .boton {
         margin: 0 5px;
     }
+
+        .boton:hover {
+            background-color: yellow;
+        }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+        a:hover {
+            color: yellow;
+        }
+
+    .textoBoton {
+        color: black;
+    }
+
+        .textoBoton:hover {
+            color: black;
+        }
 </style>
 
 <h2>Characters</h2>
@@ -36,15 +68,15 @@
     <div class="buscador">
         <input type="text" class="buscar" @bind="searchstring" @bind:event="oninput" />
     </div>
-    <button class="boton"><a href="Personajes">1</a></button>
-    <button class="boton"><a href="Personajes2">2</a></button>
-    <button class="boton"><a href="Personajes3">3</a></button>
-    <button class="boton"><a href="Personajes4">4</a></button>
-    <button class="boton"><a href="Personajes5">5</a></button>
-    <button class="boton"><a href="Personajes6">6</a></button>
-    <button class="boton"><a href="Personajes7">7</a></button>
-    <button class="boton"><a href="Personajes8">8</a></button>
-    <button class="boton"><a href="Personajes9">9</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes">1</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes2">2</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes3">3</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes4">4</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes5">5</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes6">6</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes7">7</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes8">8</a></button>
+    <button class="boton"><a class="textoBoton" href="Personajes9">9</a></button>
     <button class="boton" @onclick="MostrarDefaultCharacters">Default</button>
     <button class="boton" @onclick="MostrarAscCharacters">Ascendent</button>
     <button class="boton" @onclick="MostrarDescCharacters">Descendent</button>
